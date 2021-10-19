@@ -9,14 +9,19 @@
 #' @param response character denoting the column name for the model response
 #' @param invariant.X character denoting the column name for the time-invariant covariate
 #' @param variant.X character denoting the column name for the time-variant covariate
+#' @param cens character denoting the column name for the censoring indicator; 1 is not censored and 0 is censored
 # @param X.names string of characters denoting the columns for the model covariates that are associated with fixed effects
 # @param Z.names string of characters denoting the columns for the model covariates that are associated with random effects
 #'
 #' @export
-eff_score_vec = function(data, response, invariant.X = NULL, variant.X) {
+eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = NULL) {
                          #, X.names, Z.names = NULL) {
   # number of observations in cluster
   m = nrow(data)
+
+  # cens = 1 if
+  cens.bool = is.null(cens)
+  if (!cens.bool) { cens.bool = (data[1, cens] == 1) }
 
   # is invariant.X null?
   invariant.bool = is.null(invariant.X)
@@ -32,11 +37,8 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X) {
 
   # random effects design matrix
   Z = matrix(1, m, 1)
+  if (!cens.bool) { Z = cbind(Z, 1) }
   # if(!is.null(Z.names)) { Z = cbind(Z, as.matrix(data[, Z.names])) }
-  # transpose of Z
-  Z = t(Z)
-  # columns (q + 1) through m of t(Z)
-  Zr = matrix(Z[, (q + 1):m], q)
 
   ## THIS IS HOW I HAD TO WRITE THE FUNCTION FOR IT BE USED WITH
   ## GEEX - THE FUNCTION ARGUMENT IS THETA AND IT RETURNS A VECTOR
@@ -47,18 +49,16 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X) {
     sigma2 = theta[p+1]
 
     # transform Y
-    w = Z %*% y / sigma2
-    v = y[(q+1):m] / sigma2
+    w = t(Z) %*% y / sigma2
 
     ## BETA
     # calculate zeta, the fixed effects component of linear predictor
+    ## CHANGE ZETA IF CENSORED?
     zeta = theta[1] + X %*% theta[(2 + !invariant.bool):p]
     if (!invariant.bool) { zeta = zeta + data[1, invariant.X] * theta[2] }
 
     # conditional expectation of y given w, x, s, t, z, b
-    cond.expect.y <- zeta + t(Z) %*% solve(Z %*% t(Z)) %*% (sigma2 * w - Z %*% zeta)
-    # conditional expectation of y'y given w, x, s, t, z, b
-    cond.expect.sum.y2 <- sigma2*(m - q) + sum(cond.expect.y^2)
+    cond.expect.y <- zeta + Z %*% MASS::ginv(t(Z) %*% Z) %*% (sigma2 * w - t(Z) %*% zeta)
 
     ## BETA
     # intercept
@@ -70,8 +70,7 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X) {
     eff.score.beta <- t(X) %*% (y - cond.expect.y)
 
     ## SIGMA
-    eff.score.sigma2 <- t(zeta) %*% (cond.expect.y - y)/sigma2
-    eff.score.sigma2 <- eff.score.sigma2 + (sum(y^2) - cond.expect.sum.y2)/(2*sigma2^2)
+    eff.score.sigma2 <- t(zeta) %*% (cond.expect.y - y)/sigma2 + (sum(y^2) - (sigma2*(m - q) + sum(cond.expect.y^2)))/(2*sigma2^2)
 
     c(eff.score.beta0, eff.score.beta1, eff.score.beta, eff.score.sigma2)
   }
