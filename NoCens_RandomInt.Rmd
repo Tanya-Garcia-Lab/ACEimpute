@@ -56,11 +56,7 @@ if (p > 2) {
   sample.data = sample.data %>% 
     mutate(X2 = rnorm(N, 0, 1), Y = Y + beta[3] * X2)
 }
-# matrix M used for transforming Y 
-M = rbind(matrix(1, 1, m), cbind(matrix(0, m - q, q), diag(m - q)))
-# M^{-1}
-M.inv = solve(M)
-M.inv
+
 head(sample.data, 10) %>% knitr::kable()
 ```
 
@@ -157,10 +153,7 @@ if (p > 2) {
   sample.data = sample.data %>% 
     mutate(X2 = rnorm(N, 0, 1), Y = Y + beta[3] * X2)
 }
-# matrix M used for transforming Y 
-M = rbind(matrix(1, 1, m), cbind(matrix(0, m - q, q), diag(m - q)))
-# M^{-1}
-M.inv = solve(M)
+
 head(sample.data, 10) %>% knitr::kable()
 ```
 
@@ -251,6 +244,7 @@ if (p > 3) {
   sample.data = sample.data %>% 
     mutate(X3 = rnorm(N, 0, 1), Y = Y + beta[4] * X3)
 }
+
 head(sample.data, 10) %>% knitr::kable()
 ```
 
@@ -343,10 +337,7 @@ b = matrix(rnorm(n*q, 0, 1), n)
 # response Y
 sample.data = data.frame(id = rep(1:n, each = m), Y = beta[1] + rep(b, each = m) + epsilon, X) %>%
   mutate(Y = Y + X %*% beta[2:p])
-# matrix M used for transforming Y 
-M = rbind(matrix(1, 1, m), cbind(matrix(0, m - q, q), diag(m - q)))
-# M^{-1}
-M.inv = solve(M)
+
 head(sample.data, 10) %>% knitr::kable()
 ```
 
