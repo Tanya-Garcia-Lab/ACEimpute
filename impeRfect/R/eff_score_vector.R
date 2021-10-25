@@ -62,15 +62,15 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = N
 
     ## BETA
     # intercept
-    eff.score.beta0 <- sum(y - cond.expect.y)
+    eff.score.beta0 <- sum(y - cond.expect.y)/sigma2
     # fixed effect for time-invariant covariate
     if (invariant.bool) { eff.score.beta1 = NULL }
     else { eff.score.beta1 <- data[1, invariant.X] * eff.score.beta0 }
     # fixed effect for time-variant covariate
-    eff.score.beta <- t(X) %*% (y - cond.expect.y)
+    eff.score.beta <- t(X) %*% (y - cond.expect.y)/sigma2
 
     ## SIGMA
-    eff.score.sigma2 <- t(zeta) %*% (cond.expect.y - y)/sigma2 + (sum(y^2) - (sigma2*(m - q) + sum(cond.expect.y^2)))/(2*sigma2^2)
+    eff.score.sigma2 <- t(zeta) %*% (cond.expect.y - y)/(sigma2^2) + (sum(y^2) - (sigma2*(m - q) + sum(cond.expect.y^2)))/(2*sigma2^2)
 
     c(eff.score.beta0, eff.score.beta1, eff.score.beta, eff.score.sigma2)
   }
