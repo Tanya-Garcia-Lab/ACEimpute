@@ -4,16 +4,26 @@
 \alias{eff_score_vec}
 \title{Calculate the efficient score function for theta}
 \usage{
-eff_score_vec(data, response)
+eff_score_vec(data, response, invariant.X = NULL, variant.X, cens = NULL)
 }
 \arguments{
 \item{data}{dataframe for one cluster of observations}
 
 \item{response}{character denoting the column name for the model response}
+
+\item{invariant.X}{character denoting the column name for the time-invariant covariate}
+
+\item{variant.X}{character denoting the column name for the time-variant covariate}
+
+\item{cens}{character denoting the column name for the censoring indicator; 1 is not censored and 0 is censored}
 }
 \description{
 Take in in dataframe 'data', which corresponds to data from a
-single cluster, then return the efficient score function thot
-beta corresponding to that cluster.
+single cluster, then return the efficient score function for
+theta = (beta, alpha, sigma^2) corresponding to that cluster.
 Intended for use with geex() function
+Right now, inteded for use in linear mixed model when we do
+not want to specify a distribution for the random effects.
+Also, at the moment, this function only allows for random
+intercept.
 }

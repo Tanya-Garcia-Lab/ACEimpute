@@ -1,9 +1,13 @@
 #' Calculate the efficient score function for theta
 #'
 #' Take in in dataframe 'data', which corresponds to data from a
-#' single cluster, then return the efficient score function thot
-#' beta corresponding to that cluster.
+#' single cluster, then return the efficient score function for
+#' theta = (beta, alpha, sigma^2) corresponding to that cluster.
 #' Intended for use with geex() function
+#' Right now, inteded for use in linear mixed model when we do
+#' not want to specify a distribution for the random effects.
+#' Also, at the moment, this function only allows for random
+#' intercept.
 #'
 #' @param data dataframe for one cluster of observations
 #' @param response character denoting the column name for the model response
@@ -13,6 +17,8 @@
 # @param X.names string of characters denoting the columns for the model covariates that are associated with fixed effects
 # @param Z.names string of characters denoting the columns for the model covariates that are associated with random effects
 #'
+#' @importFrom MASS ginv
+#'
 #' @export
 eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = NULL) {
                          #, X.names, Z.names = NULL) {
@@ -20,8 +26,8 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = N
   m = nrow(data)
 
   # cens = 1 if
-  cens.bool = is.null(cens)
-  if (!cens.bool) { cens.bool = (data[1, cens] == 1) }
+  # cens.bool = is.null(cens)
+  # if (!cens.bool) { cens.bool = (data[1, cens] == 1) }
 
   # is invariant.X null?
   invariant.bool = is.null(invariant.X)
@@ -37,7 +43,7 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = N
 
   # random effects design matrix
   Z = matrix(1, m, 1)
-  if (!cens.bool) { Z = cbind(Z, 1) }
+  # if (!cens.bool) { Z = cbind(Z, 1) }
   # if(!is.null(Z.names)) { Z = cbind(Z, as.matrix(data[, Z.names])) }
 
   ## THIS IS HOW I HAD TO WRITE THE FUNCTION FOR IT BE USED WITH
