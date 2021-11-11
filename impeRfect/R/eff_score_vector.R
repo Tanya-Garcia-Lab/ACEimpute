@@ -65,6 +65,7 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = N
 
     # conditional expectation of y given w, x, s, t, z, b
     cond.expect.y <- zeta + Z %*% MASS::ginv(t(Z) %*% Z) %*% (sigma2 * w - t(Z) %*% zeta)
+    cond.expect.y2 <- sigma2*(m - q) + sum(cond.expect.y^2)
 
     ## BETA
     # intercept
@@ -76,7 +77,7 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = N
     eff.score.beta <- t(X) %*% (y - cond.expect.y)/sigma2
 
     ## SIGMA
-    eff.score.sigma2 <- t(zeta) %*% (cond.expect.y - y)/(sigma2^2) + (sum(y^2) - (sigma2*(m - q) + sum(cond.expect.y^2)))/(2*sigma2^2)
+    eff.score.sigma2 <- (0.5*(sum(y^2) - cond.expect.y2) - t(zeta) %*% (y - cond.expect.y))/(sigma2^2)
 
     c(eff.score.beta0, eff.score.beta, eff.score.sigma2)
   }
