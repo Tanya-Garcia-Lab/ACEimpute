@@ -3,8 +3,8 @@
 #' Take in in dataframe 'data', which corresponds to data from a
 #' single cluster, then return the efficient score function for
 #' theta = (beta, alpha, sigma^2) corresponding to that cluster.
-#' Intended for use with geex() function
-#' Right now, inteded for use in linear mixed model when we do
+#' Intended for use with m_estimate() function
+#' Right now, intended for use in linear mixed model when we do
 #' not want to specify a distribution for the random effects.
 #' Also, at the moment, this function only allows for random
 #' intercept.
@@ -30,10 +30,10 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = N
   # if (!cens.bool) { cens.bool = (data[1, cens] == 1) }
 
   # is invariant.X null?
-  invariant.bool = is.null(invariant.X)
+  # invariant.bool = is.null(invariant.X)
 
   # number of fixed effects
-  p = 1 + length(invariant.X) + length(variant.X)
+  p = 1 + length(variant.X)
   # number of random effects
   q = 1 #+ length(Z.names)
 
@@ -54,14 +54,14 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = N
     # variance of random error
     sigma2 = theta[p+1]
 
-    # transform Y
+    # transform Y; explained in Overleaf
     w = t(Z) %*% y / sigma2
 
     ## BETA
     # calculate zeta, the fixed effects component of linear predictor
     ## CHANGE ZETA IF CENSORED?
-    zeta = theta[1] + X %*% theta[(2 + !invariant.bool):p]
-    if (!invariant.bool) { zeta = zeta + data[1, invariant.X] * theta[2] }
+    zeta = theta[1] + X %*% theta[2:p]
+    # if (!invariant.bool) { zeta = zeta + data[1, invariant.X] * theta[2] }
 
     # conditional expectation of y given w, x, s, t, z, b
     cond.expect.y <- zeta + Z %*% MASS::ginv(t(Z) %*% Z) %*% (sigma2 * w - t(Z) %*% zeta)
@@ -70,14 +70,14 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = N
     # intercept
     eff.score.beta0 <- sum(y - cond.expect.y)/sigma2
     # fixed effect for time-invariant covariate
-    if (invariant.bool) { eff.score.beta1 = NULL }
-    else { eff.score.beta1 <- data[1, invariant.X] * eff.score.beta0 }
+    # if (invariant.bool) { eff.score.beta1 = NULL }
+    # else { eff.score.beta1 <- data[1, invariant.X] * eff.score.beta0 }
     # fixed effect for time-variant covariate
     eff.score.beta <- t(X) %*% (y - cond.expect.y)/sigma2
 
     ## SIGMA
     eff.score.sigma2 <- t(zeta) %*% (cond.expect.y - y)/(sigma2^2) + (sum(y^2) - (sigma2*(m - q) + sum(cond.expect.y^2)))/(2*sigma2^2)
 
-    c(eff.score.beta0, eff.score.beta1, eff.score.beta, eff.score.sigma2)
+    c(eff.score.beta0, eff.score.beta, eff.score.sigma2)
   }
 }

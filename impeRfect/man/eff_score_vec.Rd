@@ -21,8 +21,8 @@ eff_score_vec(data, response, invariant.X = NULL, variant.X, cens = NULL)
 Take in in dataframe 'data', which corresponds to data from a
 single cluster, then return the efficient score function for
 theta = (beta, alpha, sigma^2) corresponding to that cluster.
-Intended for use with geex() function
-Right now, inteded for use in linear mixed model when we do
+Intended for use with m_estimate() function
+Right now, intended for use in linear mixed model when we do
 not want to specify a distribution for the random effects.
 Also, at the moment, this function only allows for random
 intercept.

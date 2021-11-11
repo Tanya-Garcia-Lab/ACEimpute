@@ -38,25 +38,8 @@ p = 3
 beta = c(1.5, 2, -1)
 # random error sd; random errors
 sigma = 1
-epsilon = rnorm(N, 0, sigma)
-# number of random effects
-q = 1
-Z = matrix(1, N)
-if (q > 1) { Z = cbind(Z, X[, 1:(q - 1)]) }
-# random effects
-b = matrix(rnorm(n*q, 0, 1), n)
-# b = rt(n = n, df = 10)
-# response Y
-sample.data = data.frame(id = rep(1:n, each = m), Y = beta[1] + rep(b, each = m) + epsilon)
-if (p > 1) {
-  sample.data = sample.data %>%
-    mutate(X1 = rep(rbinom(n, 1, 0.5), each = m), Y = Y + beta[2] * X1)
-}
-if (p > 2) {
-  sample.data = sample.data %>% 
-    mutate(X2 = rnorm(N, 0, 1), Y = Y + beta[3] * X2)
-}
 
+sample.data = generate_data(n = n, m = m, beta = beta)
 head(sample.data, 10) %>% knitr::kable()
 ```
 
@@ -159,10 +142,11 @@ head(sample.data, 10) %>% knitr::kable()
 
 ## Parameter Estimation
 
-```{r Estimate.Parameters.2, cache=F, echo=F}
+```{r Estimate.Parameters.2, cache=F, echo=F, eval=F}
 # use lmer() to fit linear mixed effects model
 lme.results = lmer(formula = Y ~ X1 + X2 + (1 | id), data = sample.data) %>%
   summary()
+?lmer
 theta.lme = c(coef(lme.results)[,1], lme.results$sigma^2)
 
 # use lmer estimates as initial theta estimates
@@ -180,7 +164,7 @@ se.theta.lme = sqrt(diag(vcov(lme.results)))
 se.theta.ee = sqrt(diag(vcov(ee.results))[1:p])
 ```
 
-```{r Present.Results.2, echo=F}
+```{r Present.Results.2, echo=F, eval=F}
 # compare beta estimates
 results.df <- matrix(c(beta, sigma^2, theta.ee, theta.lme), 3, p + 1, T) %>%
   as.data.frame() %>%
