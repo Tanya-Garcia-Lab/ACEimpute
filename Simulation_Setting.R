@@ -36,7 +36,7 @@ for (i in 1:n.sims) {
   ee.fit = m_estimate(estFUN = eff_score_vec, 
                       data = sim.data, units = "id",
                       root_control = setup_root_control(start = lme.results[i, ]),
-                      outer_args = list(response = "Y", variant.X = paste0("X", 1:(p - 1))))
+                      outer_args = list(response = "Y", X.names = paste0("X", 1:(p - 1))))
   
   ee.results[i, ] = coef(ee.fit)
   print(paste("Sim",i, "complete"))
@@ -46,6 +46,8 @@ for (i in 1:n.sims) {
 c(beta, sigma)
 colMeans(lme.results)
 colMeans(ee.results)
+
+sqrt(vcov(ee.fit))
 
 # mybasis = create_basis(estFUN = eff_score_vec,
 #                       data = data.list[[1]], units = "id",
