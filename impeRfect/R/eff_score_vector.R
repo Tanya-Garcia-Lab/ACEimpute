@@ -11,17 +11,15 @@
 #'
 #' @param data dataframe for one cluster of observations
 #' @param response character denoting the column name for the model response
-#' @param invariant.X character denoting the column name for the time-invariant covariate
-#' @param variant.X character denoting the column name for the time-variant covariate
+#' @param X.names string of characters denoting the columns for the model covariates that are associated with fixed effects
 #' @param cens character denoting the column name for the censoring indicator; 1 is not censored and 0 is censored
-# @param X.names string of characters denoting the columns for the model covariates that are associated with fixed effects
 # @param Z.names string of characters denoting the columns for the model covariates that are associated with random effects
 #'
 #' @importFrom MASS ginv
 #'
 #' @export
-eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = NULL) {
-                         #, X.names, Z.names = NULL) {
+eff_score_vec = function(data, response, X.names, cens = NULL) {
+                         # Z.names = NULL) {
   # number of observations in cluster
   m = nrow(data)
 
@@ -29,17 +27,14 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = N
   # cens.bool = is.null(cens)
   # if (!cens.bool) { cens.bool = (data[1, cens] == 1) }
 
-  # is invariant.X null?
-  # invariant.bool = is.null(invariant.X)
-
   # number of fixed effects
-  p = 1 + length(variant.X)
+  p = length(X.names)
   # number of random effects
   q = 1 #+ length(Z.names)
 
   y = as.matrix(data[, response])
   # fixed effects design matrix
-  X = as.matrix(data[, variant.X])
+  X = as.matrix(data[, X.names])
 
   # random effects design matrix
   Z = matrix(1, m, 1)
@@ -60,25 +55,21 @@ eff_score_vec = function(data, response, invariant.X = NULL, variant.X, cens = N
     ## BETA
     # calculate zeta, the fixed effects component of linear predictor
     ## CHANGE ZETA IF CENSORED?
-    zeta = theta[1] + X %*% theta[2:p]
-    # if (!invariant.bool) { zeta = zeta + data[1, invariant.X] * theta[2] }
+    zeta = X %*% theta[1:p] # + theta[1]
 
     # conditional expectation of y given w, x, s, t, z, b
     cond.expect.y <- zeta + Z %*% MASS::ginv(t(Z) %*% Z) %*% (sigma2 * w - t(Z) %*% zeta)
+
+    # conditional expectation of y'y given w, x, s, t, z, b
     cond.expect.y2 <- sigma2*(m - q) + sum(cond.expect.y^2)
 
     ## BETA
-    # intercept
-    eff.score.beta0 <- sum(y - cond.expect.y)/sigma2
-    # fixed effect for time-invariant covariate
-    # if (invariant.bool) { eff.score.beta1 = NULL }
-    # else { eff.score.beta1 <- data[1, invariant.X] * eff.score.beta0 }
-    # fixed effect for time-variant covariate
+    # efficient score function for beta
     eff.score.beta <- t(X) %*% (y - cond.expect.y)/sigma2
 
     ## SIGMA
     eff.score.sigma2 <- (0.5*(sum(y^2) - cond.expect.y2) - t(zeta) %*% (y - cond.expect.y))/(sigma2^2)
 
-    c(eff.score.beta0, eff.score.beta, eff.score.sigma2)
+    c(eff.score.beta, eff.score.sigma2)
   }
 }
