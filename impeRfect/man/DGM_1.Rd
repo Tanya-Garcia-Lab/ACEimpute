@@ -13,12 +13,12 @@ DGM_1(n = 1000, m = 3, b = NULL, beta, sigma = 1)
 
 \item{b}{\code{n}-dimensional vector of random intercepts; if NULL, random intercept is generated from N(0, 1)}
 
-\item{beta}{p-dimensional vector of regression coefficients}
+\item{beta}{vector of regression coefficients on \code{z_y}, used for generation of \code{y}}
 
 \item{sigma}{standard deviation of the random error, epsilon; default is 1}
 }
 \description{
 Generate data set for \code{n} clusters each of size \code{m}
-with a response Y, \code{p} continuous and time-variant
-covariates X, and subject index id
+with a response \code{y}, subject index \code{id}, as well as
+continuous and time-dependent covariates \code{z_y}
 }

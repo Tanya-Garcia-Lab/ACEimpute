@@ -4,7 +4,7 @@
 #' with a response \code{y}, subject index \code{id}, continuous 
 #' and time-dependent covariates \code{z_y}, continuous and 
 #' time-independent covariates \code{z_t}, censored covariate \code{t},
-#' as well as data (\code(w), \code(c), and \code{\delta}) which
+#' as well as data (\code{w}, \code{c}, and \code{delta}) which
 #' describe the censoring
 #'
 #' @param n sample size; default is 1000
