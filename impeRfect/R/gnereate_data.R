@@ -28,7 +28,6 @@ generate_data = function(n = 1000, m = 3, b = NULL, sigma = 1,
   # number of fixed effects
   p = length(beta)
   # random error sd; random errors
-  sigma = 1
   epsilon = rnorm(N, 0, sigma)
   # number of random effects
   # q = 1
