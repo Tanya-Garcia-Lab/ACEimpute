@@ -31,7 +31,7 @@ for (i in 1:n.sims) {
     summary()
   lme.results[i, ] = c(coef(lme.fit)[, 1], lme.fit$sigma^2)
   # lme.results[i, 5:7] = sqrt(diag(vcov(lme.fit)))
-
+  
   # use m_estimate() to solve estimating equations defined above
   ee.fit = m_estimate(estFUN = eff_score_vec, 
                       data = sim.data, units = "id",
