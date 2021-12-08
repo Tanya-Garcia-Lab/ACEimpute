@@ -45,11 +45,16 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
   # add beta.t * t to Y
   long.data = long.data %>%
     mutate(t = rep(t, each = m)) %>%
-    mutate(Y = Y + beta.t*t)
+    mutate(y = y + beta.t*t)
   
   # add time-independent covariates to data
   long.data = long.data %>%
     cbind(kronecker(z.t, rep(1, 3)))
+
+  # I HAD TROUBLE LETTING THIS LINE VARY WITH
+  # DIFFERENT NUMBER OF z_y - right now it's
+  # hard-coded for exactly 2 covariates z_y
+  colnames(long.data)[6:7] = paste0("z_t", 1:p.logHR)
   
   ## STEP 4: generate c, the censoring mechanism
   c <- runif(n = n, min = min.c, max = max.c)
@@ -61,6 +66,8 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
     mutate(c = rep(c, each = m),
            delta = rep(delta, each = m),
            w = rep(w, each = m))
+  
+  return(long.data)
 }
 
 # # inspect data frame
