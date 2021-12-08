@@ -23,9 +23,9 @@ eff_score_vec = function(data, response, X.names, cens = NULL) {
   # number of observations in cluster
   m = nrow(data)
 
-  # cens = 1 if
-  # cens.bool = is.null(cens)
-  # if (!cens.bool) { cens.bool = (data[1, cens] == 1) }
+  # cens.bool = 1 if cens != NULL and data[1, cens] == 0
+  cens.bool = !is.null(cens)
+  if (cens.bool) { cens.bool = (data[1, cens] == 0) }
 
   # number of fixed effects
   p = length(X.names)
@@ -38,7 +38,10 @@ eff_score_vec = function(data, response, X.names, cens = NULL) {
 
   # random effects design matrix
   Z = matrix(1, m, 1)
-  # if (!cens.bool) { Z = cbind(Z, 1) }
+  if (cens.bool) {
+    Z = cbind(1, Z)
+    q = q + 1
+  }
   # if(!is.null(Z.names)) { Z = cbind(Z, as.matrix(data[, Z.names])) }
 
   ## THIS IS HOW I HAD TO WRITE THE FUNCTION FOR IT BE USED WITH
@@ -50,24 +53,23 @@ eff_score_vec = function(data, response, X.names, cens = NULL) {
     sigma2 = theta[p+1]
 
     # transform Y; explained in Overleaf
-    w = t(Z) %*% y / sigma2
+    # w = t(Z) %*% y / sigma2
 
-    ## BETA
     # calculate zeta, the fixed effects component of linear predictor
-    ## CHANGE ZETA IF CENSORED?
-    zeta = X %*% theta[1:p] # + theta[1]
+    zeta = X %*% theta[1:p]
 
-    # conditional expectation of y given w, x, s, t, z, b
-    cond.expect.y <- zeta + Z %*% MASS::ginv(t(Z) %*% Z) %*% (sigma2 * w - t(Z) %*% zeta)
+    # conditional expectation of y given w, x, s, t, z
+    cond.expect.y <- zeta + Z %*% MASS::ginv(t(Z) %*% Z) %*% t(Z) %*% (y -  zeta)
 
-    # conditional expectation of y'y given w, x, s, t, z, b
+    # conditional expectation of y'y given w, x, s, t, z
     cond.expect.y2 <- sigma2*(m - q) + sum(cond.expect.y^2)
 
     ## BETA
-    # efficient score function for beta
+    # efficient score vector for beta
     eff.score.beta <- t(X) %*% (y - cond.expect.y)/sigma2
 
     ## SIGMA
+    # efficient score for sigma^2
     eff.score.sigma2 <- (0.5*(sum(y^2) - cond.expect.y2) - t(zeta) %*% (y - cond.expect.y))/(sigma2^2)
 
     c(eff.score.beta, eff.score.sigma2)
