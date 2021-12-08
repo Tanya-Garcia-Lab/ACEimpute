@@ -4,16 +4,14 @@
 \alias{eff_score_vec}
 \title{Calculate the efficient score function for theta}
 \usage{
-eff_score_vec(data, response, invariant.X = NULL, variant.X, cens = NULL)
+eff_score_vec(data, response, X.names, cens = NULL)
 }
 \arguments{
 \item{data}{dataframe for one cluster of observations}
 
 \item{response}{character denoting the column name for the model response}
 
-\item{invariant.X}{character denoting the column name for the time-invariant covariate}
-
-\item{variant.X}{character denoting the column name for the time-variant covariate}
+\item{X.names}{string of characters denoting the columns for the model covariates that are associated with fixed effects}
 
 \item{cens}{character denoting the column name for the censoring indicator; 1 is not censored and 0 is censored}
 }
