@@ -1,21 +1,21 @@
-#' Generate longitudinal dataset
+#' Generate longitudinal dataset with one censored covariate
 #'
 #' Generate data set for \code{n} clusters each of size \code{m}
-#' with a response Y, \code{p} continuous and time-variant 
-#' covariates X, and subject index id
+#' with a response \code{y}, subject index \code{id}, continuous 
+#' and time-dependent covariates \code{z_y}, continuous and 
+#' time-independent covariates \code{z_t}, censored covariate \code{t},
+#' as well as data (\code(w), \code(c), and \code{\delta}) which
+#' describe the censoring
 #'
-# model formula: Y = X1 + X2 + (1 | id)
-# b is random, subject-specific intercept
-# epsilon is random error
 #' @param n sample size; default is 1000
 #' @param m number of visits per subject; default is 3
 #' @param b \code{n}-dimensional vector of random intercepts; if NULL, random intercept is generated from N(0, 1)
-#' @param logHR vector of log hazard ratios, used for generation of survival outcome, \code{t}
-#' @param beta vector of regression coefficients, used for generation of longitudinal outcome
-#' @param beta.t regerssion coefficient on survival outcome \code{t} in longitudinal model
+#' @param logHR vector of log hazard ratios on \code{z_t}, used for generation of \code{t}
+#' @param beta vector of regression coefficients on \code{z_y}, used for generation of \code{y}
+#' @param beta.t regression coefficient on \code{t} used for generation of \code{y}
 #' @param sigma standard deviation of the random error, epsilon; default is 1
-#' @param min.c minimum for simulation of censoring mechanism c
-#' @param max.c maximum for simulation of censoring mechanism c
+#' @param min.c minimum for simulation of censoring mechanism \code{c}
+#' @param max.c maximum for simulation of censoring mechanism \code{c}
 #' 
 #' @export
 DGM_2 = function(n = 1000, m = 3, b = NULL, 

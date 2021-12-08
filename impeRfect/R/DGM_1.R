@@ -1,16 +1,13 @@
 #' Generate longitudinal dataset
 #'
 #' Generate data set for \code{n} clusters each of size \code{m}
-#' with a response Y, \code{p} continuous and time-variant 
-#' covariates X, and subject index id
+#' with a response \code{y}, subject index \code{id}, as well as 
+#' continuous and time-dependent covariates \code{z_y}
 #'
-# model formula: Y = X1 + X2 + (1 | id)
-# b is random, subject-specific intercept
-# epsilon is random error
 #' @param n sample size; default is 1000
 #' @param m number of visits per subject; default is 3
 #' @param b \code{n}-dimensional vector of random intercepts; if NULL, random intercept is generated from N(0, 1)
-#' @param beta p-dimensional vector of regression coefficients
+#' @param beta vector of regression coefficients on \code{z_y}, used for generation of \code{y}
 #' @param sigma standard deviation of the random error, epsilon; default is 1
 #' 
 #' @export
