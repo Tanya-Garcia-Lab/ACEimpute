@@ -13,23 +13,27 @@ m = 3
 logHR <- c(1, -0.5)
 # intercept and coefficients on z.y (in that order)
 beta = c(0.5, 2, -1)
-# coefficient on t
-beta.t = 1.5
-# random error standard deviation
+# coefficient on t for simulation of y
+alpha = 1.5
+# standard deviation of epsilon, the random error 
 sigma = 1
 
-## GENERATE LONGITUDINDAL DATA
+## GENERATE LONGITUDINDAL DATA USING impeRfect::DGM_2
 long.data = DGM_2(n = n, m = m, b = NULL, 
                   logHR = logHR, beta = beta, 
-                  beta.t = beta.t, sigma = sigma)
+                  alpha = alpha, sigma = sigma)
 
 # inspect data frame
 head(long.data)
+
 # check censoring rate
 1 - mean(long.data$delta)
+
 # sanity check with lm()
 # truth = (0.5, 2, -1, 1.5)
-lm(formula = y ~ z_y1 + z_y2 + t, data = long.data) %>% coef()
+# NOTE: I use the covarirate (age - t), which correctly follows the DGM
+lm(formula = y ~ z_y1 + z_y2 + I(age - t), data = long.data) %>% coef()
+
 # sanity check with coxph()
 # truth = (1, -0.5)
 survival::coxph(formula = survival::Surv(t, delta) ~ z_t1 + z_t2, data = long.data) %>% coef()
