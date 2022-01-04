@@ -61,8 +61,8 @@ ee.fit = m_estimate(estFUN = eff_score_vec,
                     root_control = setup_root_control(start = lme.est),
                     outer_args = list(response = "y", 
                                       X.names = c("z_y1", "z_y2", "time_since_event"),
+                                      # This line is the only real change needed for censored data
                                       cens = "delta"))
 
 # truth = c(2, -1, 1.5, 1)
 coef(ee.fit)
-
