@@ -23,19 +23,20 @@ sigma <- 1
 ## GENERATE LONGITUDINDAL DATA USING impeRfect::DGM_2
 long.data <- DGM_2(n = n, m = m, b = NULL, 
                    logHR = logHR, lambda = lambda, beta = beta, 
-                   alpha = alpha, sigma = sigma)
+                   alpha = alpha, sigma = sigma, min.c = 0, max.c = 0.25)
 
 # imputation error U
-U = rnorm(n = n, mean = 0, sd = 0.5)
+U = rnorm(n = n, mean = 0, sd = 5)
+long.data$U = (1 - long.data$delta)*rep(U, each = m)
 
 # if censored, add measurement error
-long.data$t = long.data$t + (1 - long.data$delta)*U
+long.data$t = with(long.data, t + U)
 
 # create time_since_event variable, age - t
 long.data$time_since_event <- with(long.data, age - t)
 
 # inspect data frame
-head(long.data)
+head(long.data[which(long.data$delta == 0), ])
 
 # what does the event time t look like? is it realistic?
 summary(long.data$t)
