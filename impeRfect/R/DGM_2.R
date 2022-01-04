@@ -19,7 +19,7 @@
 #'
 #' @export
 DGM_2 = function(n = 1000, m = 3, b = NULL,
-                 logHR, beta, alpha, sigma = 1,
+                 logHR, lambda, beta, alpha, sigma = 1,
                  min.c = 0, max.c = 1) {
   # total obs
   N = n*m
@@ -34,12 +34,12 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
   # for each subject is p.logHR for a total of n*p.logHR
 
   # simulate z.t as iid from Normal(0, 1)
-  z.t <- matrix(data = rnorm(n = n*p.logHR, mean = 0, sd = 1),
+  z.t <- matrix(data = rnorm(n = n*p.logHR, mean = 5, sd = 1),
                 ncol = p.logHR)
   colnames(z.t) = paste0("z_t", 1:p.logHR)
 
   ## STEP 2: generate t from Cox simulation and age s
-  t <- imputeCensoRd::cox_simulation(n = n, logHR = logHR, A = z.t, dist = "Exponential", lambda = 5)
+  t <- imputeCensoRd::cox_simulation(n = n, logHR = logHR, A = z.t, dist = "Exponential", lambda = lambda)
   age.init <- runif(n, 30, 50)
 
   ## STEP 3: generate y, the longitudinal response, and z.y, the time-dependent covariates
@@ -58,8 +58,8 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
   long.data <- cbind(long.data, kronecker(z.t, rep(1, m)))
 
   # I HAD TROUBLE LETTING THIS LINE VARY WITH
-  # DIFFERENT NUMBER OF z_y - right now it's
-  # hard-coded for exactly 2 covariates z_y
+  # DIFFERENT NUMBER OF z_t - right now it's
+  # hard-coded for exactly 2 covariates z_t
   colnames(long.data)[8:9] = paste0("z_t", 1:p.logHR)
 
   ## STEP 4: generate c, the censoring mechanism
