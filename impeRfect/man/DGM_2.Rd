@@ -10,7 +10,7 @@ DGM_2(
   b = NULL,
   logHR,
   beta,
-  beta.t,
+  alpha,
   sigma = 1,
   min.c = 0,
   max.c = 1
@@ -27,7 +27,7 @@ DGM_2(
 
 \item{beta}{vector of regression coefficients on \code{z_y}, used for generation of \code{y}}
 
-\item{beta.t}{regression coefficient on \code{t} used for generation of \code{y}}
+\item{alpha}{regression coefficient on (\code{age} - \code{t}) used for generation of \code{y}}
 
 \item{sigma}{standard deviation of the random error, epsilon; default is 1}
 
@@ -39,7 +39,7 @@ DGM_2(
 Generate data set for \code{n} clusters each of size \code{m}
 with a response \code{y}, subject index \code{id}, continuous
 and time-dependent covariates \code{z_y}, continuous and
-time-independent covariates \code{z_t}, censored covariate \code{t},
-as well as data (\code{w}, \code{c}, and \code{delta}) which
-describe the censoring
+time-independent covariates \code{z_t}, subject age \code{age},
+censored covariate \code{t}, as well as data (\code{w},
+\code{c}, and \code{delta}) which describe the censoring
 }

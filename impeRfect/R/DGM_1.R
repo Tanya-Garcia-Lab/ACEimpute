@@ -34,14 +34,13 @@ DGM_1 = function(n = 1000, m = 3, b = NULL, beta, sigma = 1) {
                            y = beta[1] + rep(b, each = m) + epsilon)
 
   # fixed effects design matrix Z_y
-  Z_y = rnorm(n = N*(p - 1), mean = 0, sd = 1) %>%
-    matrix(nrow = N)
+  Z_y = rnorm(n = N*(p - 1), mean = 0, sd = 1)
+  Z_y = matrix(data = Z_y, nrow = N)
   colnames(Z_y) = paste0("z_y", 1:(p - 1))
 
   # add X %*% beta[2:p] to response and add X to data
-  sample.data = sample.data %>%
-    mutate(y = y + Z_y %*% beta[2:p]) %>%
-    cbind(Z_y)
+  sample.data$y = sample.data$y + Z_y %*% beta[2:p]
+  sample.data = cbind(sample.data, Z_y)
 
   return(sample.data)
 }

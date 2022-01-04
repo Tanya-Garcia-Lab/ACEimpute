@@ -27,10 +27,15 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
   p = length(beta)
 
   ## STEP 1: generate z.t, time-independent covariates
+
   # number of covariates in z.t
   p.logHR <- length(logHR)
+  # since z.t are time-independent, the number of z.t
+  # for each subject is p.logHR for a total of n*p.logHR
+
   # simulate z.t as iid from Normal(0, 1)
-  z.t <- matrix(data = rnorm(n = n*p.logHR, mean = 0, sd = 1), ncol = p.logHR)
+  z.t <- matrix(data = rnorm(n = n*p.logHR, mean = 0, sd = 1),
+                ncol = p.logHR)
   colnames(z.t) = paste0("z_t", 1:p.logHR)
 
   ## STEP 2: generate t from Cox simulation and age s
@@ -42,20 +47,15 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
   p.beta = length(beta)
   long.data = impeRfect::DGM_1(n = n, m = m, b = b, beta = beta, sigma = sigma)
 
-  # add alpha * (age - t) to Y
-  long.data$age <- rep(age.init, each = m) + (visit - 1)
+  # increase age by 1 for each visit
+  long.data$age <- rep(age.init, each = m) + (long.data$visit - 1)
   long.data$t <- rep(t, each = m)
-  long.data$y <- y + alpha * (long.data$age - t)
-  #long.data = long.data %>%
-    # increase initial age by 1 for each visit
-  #  mutate(age = rep(age.init, each = m) + (visit - 1),
-  #         t = rep(t, each = m), 
-  #         y = y + alpha*(age - t))
+
+  # add alpha * (age - t) to Y
+  long.data$y <- long.data$y + alpha * (long.data$age - long.data$t)
 
   # add time-independent covariates to data
-  long.data <- cbind(long.data, kronecker(z.t, rep(1, 3)))
-  #long.data = long.data %>%
-  #  cbind(kronecker(z.t, rep(1, 3)))
+  long.data <- cbind(long.data, kronecker(z.t, rep(1, m)))
 
   # I HAD TROUBLE LETTING THIS LINE VARY WITH
   # DIFFERENT NUMBER OF z_y - right now it's
@@ -71,11 +71,6 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
   long.data$c <- rep(c, each = m)
   long.data$delta <- rep(delta, each = m)
   long.data$w <- rep(w, each = m)
-  
-  #long.data = long.data %>%
-  #  mutate(c = rep(c, each = m),
-  #         delta = rep(delta, each = m),
-  #         w = rep(w, each = m))
 
   return(long.data)
 }
