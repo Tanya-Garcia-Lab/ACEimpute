@@ -14,13 +14,13 @@
 #' @param beta vector of regression coefficients on \code{z_y}, used for generation of \code{y}
 #' @param alpha regression coefficient on (\code{age} - \code{t}) used for generation of \code{y}
 #' @param sigma standard deviation of the random error, epsilon; default is 1
-#' @param min.c minimum for simulation of censoring mechanism \code{c}
-#' @param max.c maximum for simulation of censoring mechanism \code{c}
+#' @param min.age minimum for simulation of age, i.e., age ~ Uniform(min.age, max.age)
+#' @param max.age maximum for simulation of age, i.e., age ~ Uniform(min.age, max.age)
 #'
 #' @export
 DGM_2 = function(n = 1000, m = 3, b = NULL,
                  logHR, lambda, beta, alpha, sigma = 1,
-                 min.c = 0, max.c = 1) {
+                 min.age = 0, max.age = 1) {
   # total obs
   N = n*m
   # number of fixed effects
@@ -40,7 +40,8 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
 
   ## STEP 2: generate t from Cox simulation and age s
   t <- imputeCensoRd::cox_simulation(n = n, logHR = logHR, A = z.t, dist = "Exponential", lambda = lambda)
-  age.init <- runif(n, 30, 50)
+  age.init <- runif(n = n, min = min.age, max = max.age)
+  max.age <- age.init + m - 1
 
   ## STEP 3: generate y, the longitudinal response, and z.y, the time-dependent covariates
   # intercept and coefficients on z.y
@@ -49,6 +50,7 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
 
   # increase age by 1 for each visit
   long.data$age <- rep(age.init, each = m) + (long.data$visit - 1)
+  long.data$max.age <- rep(max.age, each = m)
   long.data$t <- rep(t, each = m)
 
   # add alpha * (age - t) to Y
@@ -60,15 +62,13 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
   # I HAD TROUBLE LETTING THIS LINE VARY WITH
   # DIFFERENT NUMBER OF z_t - right now it's
   # hard-coded for exactly 2 covariates z_t
-  colnames(long.data)[8:9] = paste0("z_t", 1:p.logHR)
+  colnames(long.data)[9:10] = paste0("z_t", 1:p.logHR)
 
   ## STEP 4: generate c, the censoring mechanism
-  c <- runif(n = n, min = min.c, max = max.c)
-  delta <- as.numeric(t <= c)
-  w <- ifelse(delta, t, c)
+  delta <- as.numeric(t <= max.age)
+  w <- ifelse(delta, t, max.age)
 
   # add censoring information to data
-  long.data$c <- rep(c, each = m)
   long.data$delta <- rep(delta, each = m)
   long.data$w <- rep(w, each = m)
 
