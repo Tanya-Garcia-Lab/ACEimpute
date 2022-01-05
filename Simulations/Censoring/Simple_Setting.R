@@ -11,7 +11,7 @@ m <- 3
 
 ## REGRESSION PARAMETERS
 # log hazard ratio on z.t for simulation of t, the survival outcome
-logHR <- c(1, -0.5)
+logHR <- c(1, -1)
 lambda <- 1
 # intercept and coefficients on z.y (in that order)
 beta <- c(0.5, 2, -1)
@@ -23,7 +23,8 @@ sigma <- 1
 ## GENERATE LONGITUDINDAL DATA USING impeRfect::DGM_2
 long.data <- DGM_2(n = n, m = m, b = NULL, 
                   logHR = logHR, lambda = lambda, beta = beta, 
-                  alpha = alpha, sigma = sigma)
+                  alpha = alpha, sigma = sigma, 
+                  min.age = 0.05, max.age = 0.15)
 
 # create time_since_event variable, age - t
 long.data$time_since_event <- with(long.data, age - t)
@@ -38,13 +39,13 @@ summary(long.data$t)
 1 - mean(long.data$delta)
 
 # sanity check with lm()
-# truth = (0.5, 2, -1, 1.5)
+# truth = c(0.5, 2, -1, 1.5)
 # NOTE: I use the covarirate (age - t), which correctly follows the DGM
 coef(lm(formula = y ~ z_y1 + z_y2 + time_since_event, data = long.data))
 
 # sanity check with coxph()
-# truth = -0.3
-coef(survival::coxph(formula = survival::Surv(t, delta) ~ z_t1, data = long.data))
+# truth = c(1, -1)
+coef(survival::coxph(formula = survival::Surv(t, delta) ~ z_t1 + z_t2, data = long.data))
 
 ## HI SARAH! :)
 ## NEXT STEPS:
