@@ -23,8 +23,7 @@ sigma <- 1
 ## GENERATE LONGITUDINDAL DATA USING impeRfect::DGM_2
 long.data <- DGM_2(n = n, m = m, b = NULL, 
                   logHR = logHR, lambda = lambda, beta = beta, 
-                  alpha = alpha, sigma = sigma, 
-                  min.age = 0.05, max.age = 0.15)
+                  alpha = alpha, sigma = sigma)
 
 # create time_since_event variable, age - t
 long.data$time_since_event <- with(long.data, age - t)
