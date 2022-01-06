@@ -8,12 +8,12 @@ DGM_2(
   n = 1000,
   m = 3,
   b = NULL,
-  logHR,
   beta,
   alpha,
   sigma = 1,
-  min.c = 0,
-  max.c = 1
+  logHR,
+  rate.t = 1,
+  rate.c = 1
 )
 }
 \arguments{
@@ -23,17 +23,17 @@ DGM_2(
 
 \item{b}{\code{n}-dimensional vector of random intercepts; if NULL, random intercept is generated from N(0, 1)}
 
-\item{logHR}{vector of log hazard ratios on \code{z_t}, used for generation of \code{t}}
-
 \item{beta}{vector of regression coefficients on \code{z_y}, used for generation of \code{y}}
 
 \item{alpha}{regression coefficient on (\code{age} - \code{t}) used for generation of \code{y}}
 
 \item{sigma}{standard deviation of the random error, epsilon; default is 1}
 
-\item{min.c}{minimum for simulation of censoring mechanism \code{c}}
+\item{logHR}{vector of log hazard ratios on \code{z_t}, used for generation of \code{t}}
 
-\item{max.c}{maximum for simulation of censoring mechanism \code{c}}
+\item{rate.t}{rate parameter for baseline hazard of \code{t}; default is 1}
+
+\item{rate.c}{rate parameter for exponential distribution of \code{c}; default is 1}
 }
 \description{
 Generate data set for \code{n} clusters each of size \code{m}
