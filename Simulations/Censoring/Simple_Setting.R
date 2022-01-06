@@ -11,8 +11,8 @@ m <- 3
 
 ## REGRESSION PARAMETERS
 # log hazard ratio on z.t for simulation of t, the survival outcome
-logHR <- c(1, -1)
-lambda <- 1
+logHR <- c(1, -0.5)
+lambda <- 0.5
 # intercept and coefficients on z.y (in that order)
 beta <- c(0.5, 2, -1)
 # coefficient on t for simulation of y
@@ -43,8 +43,8 @@ summary(long.data$t)
 coef(lm(formula = y ~ z_y1 + z_y2 + time_since_event, data = long.data))
 
 # sanity check with coxph()
-# truth = c(1, -1)
-coef(survival::coxph(formula = survival::Surv(t, delta) ~ z_t1 + z_t2, data = long.data))
+# truth = c(1, -0.5)
+coef(survival::coxph(formula = survival::Surv(w, delta) ~ z_t1 + z_t2, data = long.data))
 
 ## HI SARAH! :)
 ## NEXT STEPS:
