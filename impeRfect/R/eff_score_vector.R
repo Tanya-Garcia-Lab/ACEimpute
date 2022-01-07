@@ -1,13 +1,14 @@
-#' Calculate the efficient score function for theta
+#' This function calculates the efficient score vector proposed by
+#' Grosser et al. (2022)
 #'
-#' Take in in dataframe 'data', which corresponds to data from a
-#' single cluster, then return the efficient score function for
-#' theta = (beta, alpha, sigma^2) corresponding to that cluster.
+#' Estimates the parameters of a linear mixed model when we do
+#' not want to specify a distribution for the random effects and
+#' when one covariate is (possibly) subject to random right-censoring
+#' Takes in dataframe 'data', which corresponds to data from a
+#' single cluster, then returns the value of efficient score vector for
+#' theta = (beta, sigma^2) corresponding to that cluster.
 #' Intended for use with m_estimate() function
-#' Right now, intended for use in linear mixed model when we do
-#' not want to specify a distribution for the random effects.
-#' Also, at the moment, this function only allows for random
-#' intercept.
+#' At the moment, this function only allows for random intercept.
 #'
 #' @param data dataframe for one cluster of observations
 #' @param response character denoting the column name for the model response
@@ -32,6 +33,7 @@ eff_score_vec = function(data, response, X.names, cens = NULL) {
   # number of random effects
   q = 1 #+ length(Z.names)
 
+  # longitudinal response
   y = as.matrix(data[, response])
   # fixed effects design matrix
   X = as.matrix(data[, X.names])
@@ -44,16 +46,11 @@ eff_score_vec = function(data, response, X.names, cens = NULL) {
   }
   # if(!is.null(Z.names)) { Z = cbind(Z, as.matrix(data[, Z.names])) }
 
-  ## THIS IS HOW I HAD TO WRITE THE FUNCTION FOR IT BE USED WITH
-  ## GEEX - THE FUNCTION ARGUMENT IS THETA AND IT RETURNS A VECTOR
-  ## THAT IS THE SUMMAND FOR THE ESTIMATING EQUATION OF INTEREST
-  ## IT'S KINDA WEIRD BUT I GUESS IT MAKES SENSE
+  ## The following lines are written so that this function is
+  ## compatible with the function m_estimate() from the geex package
   function(theta) {
     # variance of random error
     sigma2 = theta[p+1]
-
-    # transform Y; explained in Overleaf
-    # w = t(Z) %*% y / sigma2
 
     # calculate zeta, the fixed effects component of linear predictor
     zeta = X %*% theta[1:p]
@@ -64,14 +61,13 @@ eff_score_vec = function(data, response, X.names, cens = NULL) {
     # conditional expectation of y'y given w, x, s, t, z
     cond.expect.y2 <- sigma2*(m - q) + sum(cond.expect.y^2)
 
-    ## BETA
     # efficient score vector for beta
     eff.score.beta <- t(X) %*% (y - cond.expect.y)/sigma2
 
-    ## SIGMA
     # efficient score for sigma^2
     eff.score.sigma2 <- (0.5*(sum(y^2) - cond.expect.y2) - t(zeta) %*% (y - cond.expect.y))/(sigma2^2)
 
+    # return efficient vector for theta = c(beta, sigma^2)
     c(eff.score.beta, eff.score.sigma2)
   }
 }
