@@ -15,7 +15,7 @@ logHR <- c(1, -0.5)
 rate.t <- 0.5
 rate.c <- 1
 # intercept and coefficients on z.y (in that order)
-beta <- c(0.5, 2, -1)
+beta <- c(0, 2, -1)
 # coefficient on t for simulation of y
 alpha <- 1.5
 # standard deviation of epsilon, the random error 
