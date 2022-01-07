@@ -2,9 +2,10 @@
 % Please edit documentation in R/eff_score_vector.R
 \name{eff_score_vec}
 \alias{eff_score_vec}
-\title{Calculate the efficient score function for theta}
+\title{This function calculates the efficient score vector proposed by
+Grosser et al. (2022)}
 \usage{
-eff_score_vec(data, response, X.names, cens = NULL)
+eff_score_vec(data, response, X.names, Z.names = NULL, cens = NULL)
 }
 \arguments{
 \item{data}{dataframe for one cluster of observations}
@@ -13,15 +14,19 @@ eff_score_vec(data, response, X.names, cens = NULL)
 
 \item{X.names}{string of characters denoting the columns for the model covariates that are associated with fixed effects}
 
-\item{cens}{character denoting the column name for the censoring indicator; 1 is not censored and 0 is censored}
+\item{Z.names}{string of characters denoting the columns for the model covariates that are associated with random effects.
+Default value is NULL, in which case the random effects design matrix is assumed to be a column of 1's}
+
+\item{cens}{character denoting the column name for the censoring indicator, which is 1 if not censored and 0 if censored.
+Default value is NULL, in which case the cluster is considered not censored.}
 }
 \description{
-Take in in dataframe 'data', which corresponds to data from a
-single cluster, then return the efficient score function for
-theta = (beta, alpha, sigma^2) corresponding to that cluster.
+Estimates the parameters of a linear mixed model when we do
+not want to specify a distribution for the random effects and
+when one covariate is (possibly) subject to random right-censoring
+Takes in dataframe 'data', which corresponds to data from a
+single cluster, then returns the value of efficient score vector for
+theta = (beta, sigma^2) corresponding to that cluster.
 Intended for use with m_estimate() function
-Right now, intended for use in linear mixed model when we do
-not want to specify a distribution for the random effects.
-Also, at the moment, this function only allows for random
-intercept.
+At the moment, this function only allows for random intercept.
 }

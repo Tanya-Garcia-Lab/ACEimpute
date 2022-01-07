@@ -13,14 +13,16 @@
 #' @param data dataframe for one cluster of observations
 #' @param response character denoting the column name for the model response
 #' @param X.names string of characters denoting the columns for the model covariates that are associated with fixed effects
-#' @param cens character denoting the column name for the censoring indicator; 1 is not censored and 0 is censored
-# @param Z.names string of characters denoting the columns for the model covariates that are associated with random effects
+#' @param cens character denoting the column name for the censoring indicator, which is 1 if not censored and 0 if censored.
+#' Default value is NULL, in which case the cluster is considered not censored.
+#' @param Z.names string of characters denoting the columns for the model covariates that are associated with random effects.
+#' Default value is NULL, in which case the random effects design matrix is assumed to be a column of 1's
 #'
 #' @importFrom MASS ginv
 #'
 #' @export
-eff_score_vec = function(data, response, X.names, cens = NULL) {
-                         # Z.names = NULL) {
+eff_score_vec = function(data, response,
+                         X.names, Z.names = NULL, cens = NULL) {
   # number of observations in cluster
   m = nrow(data)
 
@@ -31,7 +33,7 @@ eff_score_vec = function(data, response, X.names, cens = NULL) {
   # number of fixed effects
   p = length(X.names)
   # number of random effects
-  q = 1 #+ length(Z.names)
+  q = 1 + length(Z.names)
 
   # longitudinal response
   y = as.matrix(data[, response])
@@ -39,15 +41,22 @@ eff_score_vec = function(data, response, X.names, cens = NULL) {
   X = as.matrix(data[, X.names])
 
   # random effects design matrix
-  Z = matrix(1, m, 1)
+  if (is.null(Z.names)) {
+    # if Z.names not provided, Z = 1_m
+    Z = matrix(1, m, 1)
+  }
+  else {
+    # otherwise, use the design matrix specified by Z.names
+    Z = as.matrix(data[, Z.names])
+  }
+  # add leading column of 1_m if censored
   if (cens.bool) {
     Z = cbind(1, Z)
     q = q + 1
   }
-  # if(!is.null(Z.names)) { Z = cbind(Z, as.matrix(data[, Z.names])) }
 
-  ## The following lines are written so that this function is
-  ## compatible with the function m_estimate() from the geex package
+  # The following lines are written so that this function is
+  #  compatible with the function m_estimate() from the geex package
   function(theta) {
     # variance of random error
     sigma2 = theta[p+1]
