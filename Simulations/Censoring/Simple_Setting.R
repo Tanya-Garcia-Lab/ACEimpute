@@ -17,7 +17,7 @@ rate.c <- 1
 # intercept and coefficients on z.y (in that order)
 beta <- c(0, 2, -1)
 # coefficient on t for simulation of y
-alpha <- 1.5
+alpha <- 1
 # standard deviation of epsilon, the random error 
 sigma <- 1
 
@@ -36,8 +36,10 @@ summary(long.data$t)
 1 - mean(long.data$delta)
 
 # sanity check with lm()
-# truth = c(0.5, 2, -1, 1.5)
-coef(lm(formula = y ~ z_y1 + z_y2 + time_to_event, data = long.data))
+# truth = c(0, 2, -1, 1)
+summary(lmer(formula = y ~ z_y1 + z_y2 + time_to_event + (1 | id), data = long.data))$coefficients[, 1]
+# truth = 1
+summary(lmer(formula = y ~ z_y1 + z_y2 + time_to_event + (1 | id), data = long.data))$sigma
 
 # sanity check with coxph()
 # truth = c(1, -0.5)
@@ -56,7 +58,7 @@ imp_data$time_to_event_imp <- with(imp_data, (visit - 1) - imp)
 lme.fit <- lmer(formula = y ~ z_y1 + z_y2 + time_to_event_imp + (1 | id) - 1, data = imp_data)
 lme.sum <- summary(lme.fit)
 lme.est <- c(coef(lme.sum)[, 1], lme.sum$sigma^2)
-# truth = c(2, -1, 1.5, 1)
+# truth = c(2, -1, 1, 1)
 lme.est
 
 # use m_estimate() to solve estimating equations defined above
@@ -68,5 +70,5 @@ ee.fit <- m_estimate(estFUN = eff_score_vec,
                                        # This line is the only real change needed for censored data
                                        cens = "delta"))
 
-# truth = c(2, -1, 1.5, 1)
+# truth = c(2, -1, 1, 1)
 coef(ee.fit)
