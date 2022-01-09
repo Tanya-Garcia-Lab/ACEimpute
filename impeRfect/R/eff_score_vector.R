@@ -39,7 +39,6 @@ eff_score_vec = function(data, response,
   y = as.matrix(data[, response])
   # fixed effects design matrix
   X = as.matrix(data[, X.names])
-
   # random effects design matrix
   if (is.null(Z.names)) {
     # if Z.names not provided, Z = 1_m
