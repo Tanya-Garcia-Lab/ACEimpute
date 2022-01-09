@@ -47,8 +47,7 @@ c(beta, sigma)
 colMeans(lme.results)
 colMeans(ee.results)
 
-sqrt(vcov(ee.fit))
-
+# sqrt(vcov(ee.fit))
 # mybasis = create_basis(estFUN = eff_score_vec,
 #                       data = data.list[[1]], units = "id",
 #                       outer_args = list(response = "Y", variant.X = paste0("X", 1:(p - 1))))
