@@ -59,15 +59,6 @@ summary(lmer(formula = y ~ z_y1 + z_y2 + time_to_event + (1 | id) - 1, data = lo
 invariant.data <- long.data[which(long.data$visit == 1), ]
 coef(survival::coxph(formula = survival::Surv(w, delta) ~ z_t1 + z_t2, data = invariant.data))
 
-# impute using imputeCensoRd::condl_mean_impute()
-## fit imputation model for W|Z_t1, Z_t2
-# imp_mod <- survival::coxph(formula = survival::Surv(w, delta) ~ z_t1 + z_t2, data = invariant.data)
-# ## Impute censored covariate t
-# imp_data <- imputeCensoRd::condl_mean_impute(fit = imp_mod, data = invariant.data, 
-#                                              obs = "w", event = "delta", addl_covar = c("z_t1", "z_t2"))
-# ## recalculate time_to_event using imputed value ("imp")
-# imp_data <- imp_data[, c("id", "imp")]
-
 invariant.data$U = rnorm(n = n, mean = 0, sd = 1)
 invariant.data$U = with(invariant.data, (1 - delta)*U)
 invariant.data = invariant.data[, c("id", "U")]
