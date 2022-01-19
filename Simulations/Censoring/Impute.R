@@ -72,3 +72,6 @@ ee.fit <- m_estimate(estFUN = eff_score_vec,
 
 # truth = c(2, -1, 1, 1)
 coef(ee.fit)
+
+# empirical sandwich estimator of the standard errors
+sqrt(diag(vcov(ee.fit)))
