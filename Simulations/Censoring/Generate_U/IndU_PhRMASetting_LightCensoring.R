@@ -1,9 +1,13 @@
 # need this for simulation of Cox model outcome
 # devtools::install_github(repo = "Tanya-Garcia-Lab/Imputing-Censored-Covariates", subdir = "imputeCensoRd")
-# devtools::install_github(repo = "kylefred/Random-Error-Imputation", subdir = "impeRfect")
-# library(impeRfect)
+devtools::install_github(repo = "kylefred/Random-Error-Imputation", subdir = "impeRfect")
+
+# setwd("~kylefg95/Research/Random-Error-Imputation")
+setwd("~kylegrosser/Documents/GitHub/Random-Error-Imputation/")
+
 library(lme4)
 library(geex)
+library(impeRfect)
 
 set.seed(114)
 # number of subjects
@@ -48,14 +52,14 @@ for (s in 1:num_sim) {
   
   # analyze with impeRfect::eff_score_vector(), as done in the following code
   # get initial parameter estimates with lmer()
-  lme.fit <- lmer(formula = y ~ z_y1 + time_to_event_imp + (1 | id) - 1, data = imp_data)
+  lme.fit <- lmer(formula = y ~ z_y1 + time_to_event_imp + (1 | id) - 1, data = long.data)
   lme.sum <- summary(lme.fit)
   lme.est <- save_res[s, c("beta1_lme", "alpha_lme", "sigma2_lme")] <- c(coef(lme.sum)[, 1], lme.sum$sigma^2)
   save_res[s, c("se_beta1_lme", "se_alpha_lme")] <- sqrt(diag(vcov(lme.fit)))
   
   # use m_estimate() to solve estimating equations defined above
   ee.fit <- m_estimate(estFUN = eff_score_vec,
-                       data = imp_data, units = "id",
+                       data = long.data, units = "id",
                        root_control = setup_root_control(start = lme.est),
                        outer_args = list(response = "y",
                                          X.names = c("z_y1", "time_to_event_imp"),
@@ -66,7 +70,7 @@ for (s in 1:num_sim) {
   
   if (s %% 25 == 0) print(paste("Simulation", s, "complete!"))
   
-  write.csv(save_res, "~kylegrosser/Documents/GitHub/Random-Error-Imputation/Simulations/Censoring/Generate_U/Results/GU_PhRMASetting_LightCens.csv", row.names = F)
+  write.csv(save_res, "Simulations/Censoring/Generate_U/Results/GU_PhRMASetting_LightCens.csv", row.names = F)
 }
 
 library(magrittr)
