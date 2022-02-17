@@ -3,7 +3,7 @@
 # devtools::install_github(repo = "kylefred/Random-Error-Imputation", subdir = "/impeRfect")
 
 # setwd("~kylefg95/Research/Random-Error-Imputation")
-setwd("~kylegrosser/Documents/GitHub/Random-Error-Imputation/impeRfect")
+setwd("~kylefg95/Research/Random-Error-Imputation/impeRfect")
 devtools::load_all()
 
 library(lme4)
@@ -70,7 +70,7 @@ for (s in 1:num_sim) {
   
   if (s %% 25 == 0) print(paste("Simulation", s, "complete!"))
   
-  write.csv(save_res, "kylegrosser/Documents/GitHub/Random-Error-Imputation/Simulations/Censoring/Generate_U/Results/GU_PhRMASetting_LightCens.csv", row.names = F)
+  write.csv(save_res, "~kylefg95/Research/Random-Error-Imputation/Simulations/Censoring/Generate_U/Results/GU_PhRMASetting_LightCens.csv", row.names = F)
 }
 
 library(magrittr)
