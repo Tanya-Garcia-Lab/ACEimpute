@@ -58,7 +58,7 @@ DGM_2 = function(n = 1000, m = 3, b = NULL,
   # I HAD TROUBLE LETTING THIS LINE VARY WITH
   # DIFFERENT NUMBER OF z_t - right now it's
   # hard-coded for exactly 2 covariates z_t
-  colnames(long.data)[8:9] = paste0("z_t", 1:p.logHR)
+  colnames(long.data)[7:8] = paste0("z_t", 1:p.logHR)
 
   ## STEP 4:
   # censoring mechanism
