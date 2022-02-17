@@ -1,13 +1,13 @@
 # need this for simulation of Cox model outcome
 # devtools::install_github(repo = "Tanya-Garcia-Lab/Imputing-Censored-Covariates", subdir = "imputeCensoRd")
-devtools::install_github(repo = "kylefred/Random-Error-Imputation", subdir = "/impeRfect")
+# devtools::install_github(repo = "kylefred/Random-Error-Imputation", subdir = "/impeRfect")
 
 # setwd("~kylefg95/Research/Random-Error-Imputation")
-setwd("~kylegrosser/Documents/GitHub/Random-Error-Imputation/")
+setwd("~kylegrosser/Documents/GitHub/Random-Error-Imputation/impeRfect")
+devtools::load_all()
 
 library(lme4)
 library(geex)
-library(impeRfect)
 
 set.seed(114)
 # number of subjects
@@ -70,7 +70,7 @@ for (s in 1:num_sim) {
   
   if (s %% 25 == 0) print(paste("Simulation", s, "complete!"))
   
-  write.csv(save_res, "Simulations/Censoring/Generate_U/Results/GU_PhRMASetting_LightCens.csv", row.names = F)
+  write.csv(save_res, "kylegrosser/Documents/GitHub/Random-Error-Imputation/Simulations/Censoring/Generate_U/Results/GU_PhRMASetting_LightCens.csv", row.names = F)
 }
 
 library(magrittr)
