@@ -1,6 +1,6 @@
 # need this for simulation of Cox model outcome
 # devtools::install_github(repo = "Tanya-Garcia-Lab/Imputing-Censored-Covariates", subdir = "imputeCensoRd")
-devtools::install_github(repo = "kylefred/Random-Error-Imputation", subdir = "impeRfect")
+devtools::install_github(repo = "kylefred/Random-Error-Imputation", subdir = "/impeRfect")
 
 # setwd("~kylefg95/Research/Random-Error-Imputation")
 setwd("~kylegrosser/Documents/GitHub/Random-Error-Imputation/")
