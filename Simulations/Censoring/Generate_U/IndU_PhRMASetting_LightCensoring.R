@@ -1,15 +1,13 @@
-# need this for simulation of Cox model outcome
-# devtools::install_github(repo = "Tanya-Garcia-Lab/Imputing-Censored-Covariates", subdir = "imputeCensoRd")
-# devtools::install_github(repo = "kylefred/Random-Error-Imputation", subdir = "/impeRfect")
-
-# setwd("~kylefg95/Research/Random-Error-Imputation")
-setwd("~kylefg95/Research/Random-Error-Imputation/impeRfect")
-devtools::load_all()
-
+libFolder = "/nas/longleaf/home/lotspeic/R/"
+library(impeRfect, lib.loc = libFolder)
 library(lme4)
-library(geex)
+library(geex, lib.loc = libFolder)
+library(magrittr)
 
-set.seed(114)
+args <- commandArgs(TRUE)
+sim_seed <- 918 + as.integer(args)
+set.seed(sim_seed)
+
 # number of subjects
 n <- 1000
 # number of visits per subject
@@ -27,15 +25,21 @@ alpha <- 1
 # standard deviation of epsilon, the random error
 sigma <- 1
 
-num_sim <- 5
+num_sim <- 1000
 save_res <- data.frame(sim = 1:num_sim, censored = NA,
                        beta1_ee = NA, se_beta1_ee = NA, alpha_ee = NA, se_alpha_ee = NA, sigma2_ee = NA,
                        beta1_lme = NA, se_beta1_lme = NA, alpha_lme = NA, se_alpha_lme = NA, sigma2_lme = NA)
+
+data_list = list()
 for (s in 1:num_sim) {
   ## GENERATE LONGITUDINDAL DATA USING impeRfect::DGM_2
-  long.data <- DGM_2(n = n, m = m, b = NULL,
-                     beta = beta, alpha = alpha, sigma = sigma,
-                     logHR = logHR, rate.t = rate.t, rate.c = rate.c)
+  data_list[[s]] <- DGM_2(n = n, m = m, b = NULL,
+                          beta = beta, alpha = alpha, sigma = sigma,
+                          logHR = logHR, rate.t = rate.t, rate.c = rate.c)
+}
+
+for (s in 1:num_sim) {
+  long.data = data_list[[s]]
   
   # imputation error U
   # is this SD too big?
@@ -70,7 +74,7 @@ for (s in 1:num_sim) {
   
   if (s %% 25 == 0) print(paste("Simulation", s, "complete!"))
   
-  write.csv(save_res, "~kylefg95/Research/Random-Error-Imputation/Simulations/Censoring/Generate_U/Results/GU_PhRMASetting_LightCens.csv", row.names = F)
+  write.csv(save_res, "~kylegrosser/Documents/GitHub/Random-Error-Imputation/Simulations/Censoring/Generate_U/Results/GU_PhRMASetting_LightCens.csv", row.names = F)
 }
 
 library(magrittr)

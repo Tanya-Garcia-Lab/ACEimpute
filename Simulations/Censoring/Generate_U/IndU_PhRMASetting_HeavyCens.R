@@ -1,11 +1,13 @@
-# need this for simulation of Cox model outcome
-# devtools::install_github(repo = "Tanya-Garcia-Lab/Imputing-Censored-Covariates", subdir = "imputeCensoRd")
-# devtools::install_github(repo = "kylefred/Random-Error-Imputation", subdir = "impeRfect")
-# library(impeRfect)
+libFolder = "/nas/longleaf/home/lotspeic/R/"
+library(impeRfect, lib.loc = libFolder)
 library(lme4)
-library(geex)
+library(geex, lib.loc = libFolder)
+library(magrittr)
 
-set.seed(114)
+args <- commandArgs(TRUE)
+sim_seed <- 918 + as.integer(args)
+set.seed(sim_seed)
+
 # number of subjects
 n <- 1000
 # number of visits per subject
@@ -23,15 +25,21 @@ alpha <- 1
 # standard deviation of epsilon, the random error
 sigma <- 1
 
-num_sim <- 5
+num_sim <- 1000
 save_res <- data.frame(sim = 1:num_sim, censored = NA,
                        beta1_ee = NA, se_beta1_ee = NA, alpha_ee = NA, se_alpha_ee = NA, sigma2_ee = NA,
                        beta1_lme = NA, se_beta1_lme = NA, alpha_lme = NA, se_alpha_lme = NA, sigma2_lme = NA)
+
+data_list = list()
 for (s in 1:num_sim) {
   ## GENERATE LONGITUDINDAL DATA USING impeRfect::DGM_2
-  long.data <- DGM_2(n = n, m = m, b = NULL,
-                     beta = beta, alpha = alpha, sigma = sigma,
-                     logHR = logHR, rate.t = rate.t, rate.c = rate.c)
+  data_list[[s]] <- DGM_2(n = n, m = m, b = NULL,
+                          beta = beta, alpha = alpha, sigma = sigma,
+                          logHR = logHR, rate.t = rate.t, rate.c = rate.c)
+}
+
+for (s in 1:num_sim) {
+  long.data = data_list[[s]]
   
   # imputation error U
   # is this SD too big?
@@ -48,14 +56,14 @@ for (s in 1:num_sim) {
   
   # analyze with impeRfect::eff_score_vector(), as done in the following code
   # get initial parameter estimates with lmer()
-  lme.fit <- lmer(formula = y ~ z_y1 + time_to_event_imp + (1 | id) - 1, data = imp_data)
+  lme.fit <- lmer(formula = y ~ z_y1 + time_to_event_imp + (1 | id) - 1, data = long.data)
   lme.sum <- summary(lme.fit)
   lme.est <- save_res[s, c("beta1_lme", "alpha_lme", "sigma2_lme")] <- c(coef(lme.sum)[, 1], lme.sum$sigma^2)
   save_res[s, c("se_beta1_lme", "se_alpha_lme")] <- sqrt(diag(vcov(lme.fit)))
   
   # use m_estimate() to solve estimating equations defined above
   ee.fit <- m_estimate(estFUN = eff_score_vec,
-                       data = imp_data, units = "id",
+                       data = long.data, units = "id",
                        root_control = setup_root_control(start = lme.est),
                        outer_args = list(response = "y",
                                          X.names = c("z_y1", "time_to_event_imp"),
