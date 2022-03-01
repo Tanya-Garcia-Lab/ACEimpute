@@ -74,7 +74,7 @@ for (s in 1:num_sim) {
   
   if (s %% 25 == 0) print(paste("Simulation", s, "complete!"))
   
-  write.csv(save_res, "~kylegrosser/Documents/GitHub/Random-Error-Imputation/Simulations/Censoring/Generate_U/Results/GU_PhRMASetting_LightCens.csv", row.names = F)
+  write.csv(save_res, "~kylegrosser/Documents/GitHub/Random-Error-Imputation/Simulations/Censoring/Generate_U/Results/IndU_PhRMASetting_LightCens.csv", row.names = F)
 }
 
 library(magrittr)

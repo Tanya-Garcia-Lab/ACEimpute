@@ -44,7 +44,7 @@ for (s in 1:num_sim) {
   # imputation error U
   # is this SD too big?
   unique_t = long.data[which(long.data$visit == 1), "t"]
-  U = rnorm(n = n, mean = 0, sd = 1)
+  U = rnorm(n = n, mean = unique_t, sd = 1)
   long.data$U = (1 - long.data$delta)*rep(U, each = m)
   
   # if censored, add measurement error
@@ -74,7 +74,7 @@ for (s in 1:num_sim) {
   
   if (s %% 25 == 0) print(paste("Simulation", s, "complete!"))
   
-  write.csv(save_res, "~kylegrosser/Documents/GitHub/Random-Error-Imputation/Simulations/Censoring/Generate_U/Results/IndU_PhRMASetting_HeavyCens.csv", row.names = F)
+  write.csv(save_res, "~kylegrosser/Documents/GitHub/Random-Error-Imputation/Simulations/Censoring/Generate_U/Results/DepU_1_PhRMASetting_HeavyCens.csv", row.names = F)
 }
 
 library(magrittr)
