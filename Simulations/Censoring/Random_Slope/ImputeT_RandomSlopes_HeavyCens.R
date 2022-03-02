@@ -1,3 +1,7 @@
+library(tidyverse)
+library(lme4)
+library(geex)
+
 # Generate data set for n clusters each of size m
 # with a response y, subject index id, as well as
 # continuous and time-dependent covariates X
@@ -128,8 +132,12 @@ sigma <- 1
 num_sim <- 1000
 # save results in this data frame
 save_res <- data.frame(sim = 1:num_sim, censored = NA,
-                       beta1_ee = NA, se_beta1_ee = NA, alpha_ee = NA, se_alpha_ee = NA, sigma2_ee = NA,
-                       beta1_lme = NA, se_beta1_lme = NA, alpha_lme = NA, se_alpha_lme = NA, sigma2_lme = NA)
+                       beta0_fd_ee = NA, se_beta0_fd_ee = NA, beta1_fd_ee = NA, se_beta1_fd_ee = NA, alpha_fd_ee = NA, se_alpha_fd_ee = NA, sigma2_fd_ee = NA,
+                       beta0_fd_lme = NA, se_beta0_fd_lme = NA, beta1_fd_lme = NA, se_beta1_fd_lme = NA, alpha_fd_lme = NA, se_alpha_fd_lme = NA, sigma2_fd_lme = NA,
+                       beta0_cc_ee = NA, se_beta0_cc_ee = NA, beta1_cc_ee = NA, se_beta1_cc_ee = NA, alpha_cc_ee = NA, se_alpha_cc_ee = NA, sigma2_cc_ee = NA,
+                       beta0_cc_lme = NA, se_beta0_cc_lme = NA, beta1_cc_lme = NA, se_beta1_cc_lme = NA, alpha_cc_lme = NA, se_alpha_cc_lme = NA, sigma2_cc_lme = NA,
+                       beta0_cmi_ee = NA, se_beta0_cmi_ee = NA, beta1_cmi_ee = NA, se_beta1_cmi_ee = NA, alpha_cmi_ee = NA, se_alpha_cmi_ee = NA, sigma2_cmi_ee = NA,
+                       beta0_cmi_lme = NA, se_beta0_cmi_lme = NA, beta1_cmi_lme = NA, se_beta1_cmi_lme = NA, alpha_cmi_lme = NA, se_alpha_cmi_lme = NA, sigma2_cmi_lme = NA)
 
 for (s in 1:num_sim) {
   ## Generate longitudinal data with 1 random slope per subject and no random intercept
@@ -140,40 +148,99 @@ for (s in 1:num_sim) {
   # check censoring rate
   save_res[s, "censored"] <- 1 - mean(long.data$delta)
   
+  ## COMPARISON 1: compare REML and EE when full data is available
+  # get initial parameter estimates with lmer()
+  lme.fit.fd <- lmer(formula = y ~ x1 + time_to_event + (z1 - 1 | id), data = long.data)
+  lme.sum.fd <- summary(lme.fit.fd)
+  # save parameter estimates
+  lme.est.fd <- save_res[s, c("beta0_fd_lme", "beta1_fd_lme", "alpha_fd_lme", "sigma2_fd_lme")] <- c(coef(lme.sum.fd)[, 1], lme.sum.fd$sigma^2)
+  # save standard error estimates
+  save_res[s, c("se_beta0_fd_lme", "se_beta1_fd_lme", "se_alpha_fd_lme")] <- sqrt(diag(vcov(lme.fit.fd)))
+  
+  # give long.data a column of 1's so that the design matrix accommodates an intercept
+  long.data$J = 1
+  
+  # use m_estimate() to solve estimating equation with summand given by impeRfect::eff_score_vec()
+  ee.fit.fd <- m_estimate(estFUN = eff_score_vec,
+                          data = long.data, units = "id",
+                          root_control = setup_root_control(start = lme.est.fd),
+                          outer_args = list(response = "y",
+                                            X.names = c("J", "x1", "time_to_event"),
+                                            Z.names = c("z1"),
+                                            # cens = NULL because we are using full data
+                                            cens = NULL))
+  # save parameter estimates
+  save_res[s, c("beta0_fd_ee", "beta1_fd_ee", "alpha_fd_ee", "sigma2_fd_ee")] <- coef(ee.fit.fd)
+  # save standard error estimates
+  save_res[s, c("se_beta0_fd_ee", "se_beta1_fd_ee", "se_alpha_fd_ee")] <- sqrt(diag(vcov(ee.fit.fd)[-4, -4]))
+  
+  ## COMPARISON 2: compare REML and EE when only complete cases are used
+  long.data.cc = long.data[which(long.data$delta == 1), ]
+  
+  # get initial parameter estimates with lmer()
+  lme.fit.cc <- lmer(formula = y ~ x1 + time_to_event + (z1 - 1 | id), data = long.data.cc)
+  lme.sum.cc <- summary(lme.fit.cc)
+  # save parameter estimates
+  lme.est.cc <- save_res[s, c("beta0_cc_lme", "beta1_cc_lme", "alpha_cc_lme", "sigma2_cc_lme")] <- c(coef(lme.sum.cc)[, 1], lme.sum.cc$sigma^2)
+  # save standard error estimates
+  save_res[s, c("se_beta0_cc_lme", "se_beta1_cc_lme", "se_alpha_cc_lme")] <- sqrt(diag(vcov(lme.fit.cc)))
+  
+  # give long.data a column of 1's so that the design matrix accomodates an intercept
+  long.data.cc$J = 1
+  
+  # use m_estimate() to solve estimating equation with summand given by impeRfect::eff_score_vec()
+  ee.fit.cc <- m_estimate(estFUN = eff_score_vec,
+                          data = long.data.cc, units = "id",
+                          root_control = setup_root_control(start = lme.est.cc),
+                          outer_args = list(response = "y",
+                                            X.names = c("J", "x1", "time_to_event"),
+                                            Z.names = c("z1"),
+                                            # cens = NULL because complete cases are not censored
+                                            cens = NULL))
+  # save parameter estimates
+  save_res[s, c("beta0_cc_ee", "beta1_cc_ee", "alpha_cc_ee", "sigma2_cc_ee")] <- coef(ee.fit.cc)
+  # save standard error estimates
+  save_res[s, c("se_beta0_cc_ee", "se_beta1_cc_ee", "se_alpha_cc_ee")] <- sqrt(diag(vcov(ee.fit.cc)[-4, -4]))
+  
+  ## COMPARISON 3: compare REML and EE when imputed values are used
+  
   # impute using only one row per subject
-  imp_data <- long.data[which(long.data$visit == 1), ]
+  imp.data <- long.data[which(long.data$visit == 1), ]
   
   # impute censored covariate t using imputeCensoRd::condl_mean_impute()
-  imp_mod <- survival::coxph(formula = survival::Surv(w, delta) ~ x_t1 + x_t2, data = imp_data)
-  imp_data <- imputeCensoRd::condl_mean_impute(fit = imp_mod, obs = "w", event = "delta", addl_covar = c("x_t1", "x_t2"), data = imp_data)
+  imp.mod <- survival::coxph(formula = survival::Surv(w, delta) ~ x_t1 + x_t2, data = imp.data)
+  imp.data <- imputeCensoRd::condl_mean_impute(fit = imp.mod, obs = "w", event = "delta", addl_covar = c("x_t1", "x_t2"), data = imp.data)
   
   # repeat imputed covariate imp m times for each subject
-  long.data$imp = rep(imp_data$imp, each = m)
+  long.data$imp = rep(imp.data$imp, each = m)
   
   # recalculate time_to_event using imp
   long.data$time_to_event_imp <- with(long.data, (visit - 1) - imp)
   
   # get initial parameter estimates with lmer()
-  lme.fit <- lmer(formula = y ~ x1 + time_to_event_imp + (z1 - 1 | id), data = long.data)
-  lme.sum <- summary(lme.fit)
-  # save parameter estimates (not intercept)
-  lme.est <- save_res[s, c("beta1_lme", "alpha_lme", "sigma2_lme")] <- c(coef(lme.sum)[2:3, 1], lme.sum$sigma^2)
-  # save standard error estimates (not intercept)
-  save_res[s, c("se_beta1_lme", "se_alpha_lme")] <- sqrt(diag(vcov(lme.fit))[2:3])
+  lme.fit.cmi <- lmer(formula = y ~ x1 + time_to_event_imp + (z1 - 1 | id), data = long.data)
+  lme.sum.cmi <- summary(lme.fit.cmi)
+  # save parameter estimates
+  lme.est.cmi <- save_res[s, c("beta0_cmi_lme", "beta1_cmi_lme", "alpha_cmi_lme", "sigma2_cmi_lme")] <- c(coef(lme.sum.cmi)[, 1], lme.sum.cmi$sigma^2)
+  # save standard error estimates
+  save_res[s, c("se_beta0_cmi_lme", "se_beta1_cmi_lme", "se_alpha_cmi_lme")] <- sqrt(diag(vcov(lme.fit.cmi)))
+  
+  # give long.data a column of 1's so that the design matrix accomodates an intercept
+  long.data$J = 1
   
   # use m_estimate() to solve estimating equation with summand given by impeRfect::eff_score_vec()
-  ee.fit <- m_estimate(estFUN = eff_score_vec,
-                       data = long.data, units = "id",
-                       root_control = setup_root_control(start = lme.est),
-                       outer_args = list(response = "y",
-                                         X.names = c("x1", "time_to_event_imp"),
-                                         Z.names = c("z1"),
-                                         # This line is the only real change needed for censored data
-                                         cens = "delta"))
+  ee.fit.cmi <- m_estimate(estFUN = eff_score_vec,
+                           data = long.data, units = "id",
+                           root_control = setup_root_control(start = lme.est.cmi),
+                           outer_args = list(response = "y",
+                                             X.names = c("J", "x1", "time_to_event_imp"),
+                                             Z.names = c("z1"),
+                                             # delta tells eff_score_vec which subjects are censored
+                                             cens = "delta"))
   # save parameter estimates
-  save_res[s, c("beta1_ee", "alpha_ee", "sigma2_ee")] <- coef(ee.fit)
+  save_res[s, c("beta0_cmi_ee", "beta1_cmi_ee", "alpha_cmi_ee", "sigma2_cmi_ee")] <- coef(ee.fit.cmi)
   # save standard error estimates
-  save_res[s, c("se_beta1_ee", "se_alpha_ee")] <- sqrt(diag(vcov(ee.fit)[-3, -3]))
+  save_res[s, c("se_beta0_cmi_ee", "se_beta1_cmi_ee", "se_alpha_cmi_ee")] <- sqrt(diag(vcov(ee.fit.cmi)[-4, -4]))
   
   if (s %% 25 == 0) print(paste("Simulation", s, "complete!"))
   
