@@ -24,9 +24,8 @@ Default value is NULL, in which case the cluster is considered not censored.}
 Estimates the parameters of a linear mixed model when we do
 not want to specify a distribution for the random effects and
 when one covariate is (possibly) subject to random right-censoring
-Takes in dataframe 'data', which corresponds to data from a
+Takes in dataframe \code{data}, which corresponds to data from a
 single cluster, then returns the value of efficient score vector for
 theta = (beta, sigma^2) corresponding to that cluster.
-Intended for use with m_estimate() function
-At the moment, this function only allows for random intercept.
+Intended for use with m_estimate() function.
 }
