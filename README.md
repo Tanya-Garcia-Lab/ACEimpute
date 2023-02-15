@@ -1,5 +1,5 @@
-# Random-Error-Imputation
-Linear mixed model regression with one imputed covariate
+# ACE imputation
+Correct for imputation error when estimating a linear mixed effects model with a censored covariate
 
 ```{r}
 # To install the package
