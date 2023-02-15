@@ -9,7 +9,7 @@ library(tidyverse)
 library(lme4)
 
 # read in simulated datasets
-simulated_datasets = readr::read_rds("simulated_data/simulated_datasets_25perc_cens.rds")
+simulated_datasets = readr::read_rds("sim_data/simulated_datasets_25perc_cens.rds")
 
 # number of simulations
 max_sim <- max(simulated_datasets$replicate)
