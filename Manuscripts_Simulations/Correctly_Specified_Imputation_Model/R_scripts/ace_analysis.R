@@ -21,7 +21,7 @@ n_param = 3
 method_names = c("cmi_correct_ace")
 n_method = 1
 
-for (f in list.files(path = "simulated_data/")) {
+for (f in list.files(path = "sim_data/")) {
   # # for testing
   # f = list.files(path = "simulated_data/")[1]
   
