@@ -51,5 +51,5 @@ for (s in 1:num_sim) {
   
   if (s %% 25 == 0) print(paste("Simulation", s, "complete! :D"))
   
-  write.csv(x = save_res, file = "sim_results/fd_reml_estimates.csv", row.names = F)
+  write.csv(x = save_res, file = "sim_results/full_data_reml_estimates.csv", row.names = F)
 }
