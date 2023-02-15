@@ -174,6 +174,6 @@ summary(simulated_datasets_50perc)
 summary(simulated_datasets_75perc)
 
 # save simulated datasets
-saveRDS(object = simulated_datasets_25perc, file = "~/ACE_sims/simulated_data/simulated_datasets_25perc_cens.rds")
-saveRDS(object = simulated_datasets_50perc, file = "~/ACE_sims/simulated_data/simulated_datasets_25perc_cens.rds")
-saveRDS(object = simulated_datasets_75perc, file = "~/ACE_sims/simulated_data/simulated_datasets_25perc_cens.rds")
+saveRDS(object = simulated_datasets_25perc, file = "~/ACE_sims/sim_data/simulated_datasets_25perc_cens.rds")
+saveRDS(object = simulated_datasets_50perc, file = "~/ACE_sims/sim_data/simulated_datasets_25perc_cens.rds")
+saveRDS(object = simulated_datasets_75perc, file = "~/ACE_sims/sim_data/simulated_datasets_25perc_cens.rds")
