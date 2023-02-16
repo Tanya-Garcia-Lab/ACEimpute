@@ -6,9 +6,9 @@ The `ACEimpute` package, which corrects for imputation error, can be found in th
 
 The `imputeCensRd` package, which implements the conditional mean imputation approaches from the paper, can be found in its own repo [here](https://github.com/sarahlotspeich/imputeCensRd).
 
-Each of the "Script X" files is coded to run 5 replication of each setting for demonstration purposes. In the manuscript listed above, all simulation settings were run with 1,000 simulations each.
-
 ## Tables 
+
+Each "Script X" file is coded to run 5 replication of each simulation setting for demonstration purposes. In the manuscript listed above, all simulation settings were run with 1,000 simulations each.
 
 **Tables 1 and 4.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a correctly specified imputaiton model) plus REML, and iii) conditional mean imputation (with a correctly specified imputaiton model) plus ACE imputation to correct for imputation error.
 
