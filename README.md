@@ -10,7 +10,7 @@ The `imputeCensRd` package, which implements the conditional mean imputation app
 
 Each "Script X" file is coded to run 5 replication of each simulation setting for demonstration purposes. In the manuscript listed above, all simulation settings were run with 1,000 simulations each.
 
-**Tables 1 and 4.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a correctly specified imputaiton model) plus REML, and iii) conditional mean imputation (with a correctly specified imputaiton model) plus ACE imputation to correct for imputation error. Script 1 produces the simulated datasets, scripts 2-4 analyze these datasets, then script 5 summarizes the results in two tables.
+**Tables 1 and 4.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a correctly specified imputaiton model) plus REML, and iii) conditional mean imputation (with a correctly specified imputaiton model) plus ACE imputation to correct for imputation error.
 
   - [Script 1 (generate simulation data)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/1_data_generation.R)
   - [Script 2 (full data analysis)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/2_full_data_reml_analysis.R)
@@ -20,7 +20,7 @@ Each "Script X" file is coded to run 5 replication of each simulation setting fo
   - [Data (Simulation Results)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/sim_data)
   
   
- **Tables 2 and 5.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a misspecified imputaiton model) plus REML, and iii) conditional mean imputation (with a misspecified imputaiton model) plus ACE imputation to correct for imputation error. Script 1 produces the simulated datasets, scripts 2-4 analyze these datasets, then script 5 summarizes the results in two tables.
+ **Tables 2 and 5.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a misspecified imputaiton model) plus REML, and iii) conditional mean imputation (with a misspecified imputaiton model) plus ACE imputation to correct for imputation error.
 
   - [Script 1 (generate simulation data)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/1_data_generation.R)
   - [Script 2 (full data analysis)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/2_full_data_reml_analysis.R)
