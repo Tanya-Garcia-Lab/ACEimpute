@@ -12,12 +12,14 @@ Each "Script X" file is coded to run 5 replication of each simulation setting fo
 
 **Tables 1 and 4.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a correctly specified imputaiton model) plus REML, and iii) conditional mean imputation (with a correctly specified imputaiton model) plus ACE imputation to correct for imputation error. Script 1 produces the simulated datasets, scripts 2-4 analyze these datasets, then script 5 summarizes the results in two tables.
 
+  - [Script 0 (run scripts 1-5)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/0_run_all.R)
   - [Script 1 (generate simulation data)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/1_data_generation.R)
   - [Script 2 (full data analysis)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/2_full_data_reml_analysis.R)
   - [Script 3 (conditional mean imputation + REML analysis)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/3_cmi_mi_reml_analysis.R)
   - [Script 4 (ACE imputation analysis)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/4_ace_analysis.R)
   - [Script 5 (make table)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/5_make_tables.R)
   - [Data (Simulation Results)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/sim_data)
+  - [Tables (Manuscript Table 1 and Table 4)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/tables)
   
   
  **Tables 2 and 5.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a misspecified imputaiton model) plus REML, and iii) conditional mean imputation (with a misspecified imputaiton model) plus ACE imputation to correct for imputation error. Script 1 produces the simulated datasets, scripts 2-4 analyze these datasets, then script 5 summarizes the results in two tables.
