@@ -26,7 +26,7 @@ for (f in list.files(path = "sim_data/")) {
   # f = list.files(path = "simulated_data/")[1]
   
   # read in simulated datasets
-  simulated_datasets = readr::read_rds(paste0("simulated_data/", f))
+  simulated_datasets = readr::read_rds(paste0("sim_data/", f))
   cens = str_extract(string = f, pattern = "[:digit:]+")
   
   # number of simulations
