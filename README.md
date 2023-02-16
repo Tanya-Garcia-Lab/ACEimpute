@@ -33,5 +33,5 @@ Each of the "Script X" files is coded to run 5 replication of each setting for d
 
 **Figure 2.** Plot power curves comparing sample sizes for a clinical trial based on estimates from i) complete case analysis, ii) conditional mean imputaiton plus REML, and iii) ACE imputation
 
-  - [Script 1 (plot power curves)](Manuscript_Simulations/Power_Curves/compare_power_curves.R)(Manuscript_Simulations/Power_Curves/compare_power_curves.png)
-  - [Figure 2](
+  - [Script 1 (plot power curves)](Manuscript_Simulations/Power_Curves/compare_power_curves.R)
+  - [Figure 2](Manuscript_Simulations/Power_Curves/compare_power_curves.png)
