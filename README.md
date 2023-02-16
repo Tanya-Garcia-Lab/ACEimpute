@@ -12,19 +12,19 @@ Each of the "Script X" files is coded to run 5 replication of each setting for d
 
 **Tables 1 and 4.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a correctly specified imputaiton model) plus REML, and iii) conditional mean imputation (with a correctly specified imputaiton model) plus ACE imputation to correct for imputation error.
 
-  - [Script 1 (generate simulation data)](Manuscripts_Simulations/Correctly_Specified_Imputation_Model/R_scripts/1_data_generation.R)
-  - [Script 2 (full data analysis)](Manuscripts_Simulations/Correctly_Specified_Imputation_Model/R_scripts/2_full_data_reml_analysis.R)
-  - [Script 3 (conditional mean imputation + REML analysis)](Manuscripts_Simulations/Correctly_Specified_Imputation_Model/R_scripts/3_cmi_mi_reml_analysis.R)
-  - [Script 4 (ACE imputation analysis)](Manuscripts_Simulations/Correctly_Specified_Imputation_Model/R_scripts/4_ace_analysis.R)
-  - [Script 5 (make table)](Manuscripts_Simulations/Correctly_Specified_Imputation_Model/R_scripts/5_make_tables.R)
-  - [Data (Simulation Results)](Manuscripts_Simulations/Correctly_Specified_Imputation_Model/sim_data)
+  - [Script 1 (generate simulation data)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/1_data_generation.R)
+  - [Script 2 (full data analysis)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/2_full_data_reml_analysis.R)
+  - [Script 3 (conditional mean imputation + REML analysis)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/3_cmi_mi_reml_analysis.R)
+  - [Script 4 (ACE imputation analysis)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/4_ace_analysis.R)
+  - [Script 5 (make table)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/5_make_tables.R)
+  - [Data (Simulation Results)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/sim_data)
   
   
  **Tables 2 and 5.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a misspecified imputaiton model) plus REML, and iii) conditional mean imputation (with a misspecified imputaiton model) plus ACE imputation to correct for imputation error.
 
-  - [Script 1 (generate simulation data)](Manuscripts_Simulations/Misspecified_Imputation_Model/R_scripts/1_data_generation.R)
-  - [Script 2 (full data analysis)](Manuscripts_Simulations/Misspecified_Imputation_Model/R_scripts/2_full_data_reml_analysis.R)
-  - [Script 3 (conditional mean imputation + REML analysis)](Manuscripts_Simulations/Misspecified_Imputation_Model/R_scripts/3_cmi_mi_reml_analysis.R)
-  - [Script 4 (ACE imputation analysis)](Manuscripts_Simulations/Misspecified_Imputation_Model/R_scripts/4_ace_analysis.R)
-  - [Script 5 (make table)](Manuscripts_Simulations/Misspecified_Imputation_Model/R_scripts/5_make_tables.R)
-  - [Data (Simulation Results)](Manuscripts_Simulations/Misspecified_Imputation_Model/sim_data)
+  - [Script 1 (generate simulation data)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/1_data_generation.R)
+  - [Script 2 (full data analysis)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/2_full_data_reml_analysis.R)
+  - [Script 3 (conditional mean imputation + REML analysis)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/3_cmi_mi_reml_analysis.R)
+  - [Script 4 (ACE imputation analysis)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/4_ace_analysis.R)
+  - [Script 5 (make table)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/5_make_tables.R)
+  - [Data (Simulation Results)](Manuscript_Simulations/Misspecified_Imputation_Model/sim_data)
