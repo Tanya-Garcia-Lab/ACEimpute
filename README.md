@@ -2,15 +2,15 @@
 
 This repository contains the data and scripts needed to reproduce results from the manuscript by Grosser, Lotspeich, and Garcia (2023+). This manuscript introduces the novel method "actice correction for error in imputation" (ACE imputation), which adjusts for the errors incurred when imputing censored covariates.
 
-The `ACEimpute` package, which corrects for imputation error, can be found in this repo [here](ACEimpute/)
+The `ACEimpute` package, which corrects for imputation error, can be found in this repo [here](ACEimpute/).
 
-The `imputeCensRd` package, which implements the conditional mean imputation approaches from the paper, can be found in its own repo [here](https://github.com/sarahlotspeich/imputeCensRd).
+The `imputeCensoRd` package, which implements the conditional mean imputation approaches from the paper, can be found in its own repo [here](https://github.com/Tanya-Garcia-Lab/Imputing-Censored-Covariates/tree/main/imputeCensoRd).
 
 ## Tables 
 
 Each "Script X" file is coded to run 5 replication of each simulation setting for demonstration purposes. In the manuscript listed above, all simulation settings were run with 1,000 simulations each.
 
-**Tables 1 and 4.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a correctly specified imputaiton model) plus REML, and iii) conditional mean imputation (with a correctly specified imputaiton model) plus ACE imputation to correct for imputation error. Script 1 produces the simulated datasets, scripts 2-4 analyze these datasets, then script 5 summarizes the results in two tables.
+**Tables 1 and 4.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a correctly specified imputaiton model) plus REML, and iii) conditional mean imputation (with a correctly specified imputaiton model) plus ACE imputation to correct for imputation error. Script 1 produces the simulated datasets, scripts 2-4 analyze these datasets, then script 5 summarizes the results in two tables. For simplicity, you can simply run Script 0 to run scripts 1-5 in the propoer sequence.
 
   - [Script 0 (run scripts 1-5)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/0_run_all.R)
   - [Script 1 (generate simulation data)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/1_data_generation.R)
