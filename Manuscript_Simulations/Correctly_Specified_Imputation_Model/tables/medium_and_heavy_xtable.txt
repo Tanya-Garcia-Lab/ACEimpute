@@ -4,7 +4,7 @@
 +   cbind(data.frame(Censoring = c("Medium", rep("", 8), 
 +             .... [TRUNCATED] 
 % latex table generated in R 4.1.3 by xtable 1.8-4 package
-% Thu Feb 16 13:48:38 2023
+% Thu Feb 16 13:55:49 2023
 \begin{table}[ht]
 \centering
 \begin{tabular}{lllrrrrr}
