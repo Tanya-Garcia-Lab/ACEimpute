@@ -1,7 +1,7 @@
 # clear workspace
 rm(list = ls())
 
-# setwd("~/ACE_sims/Model 1/")
+setwd("/Users/kylegrosser/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model")
 
 library(tidyverse)
 library(lme4)
@@ -132,7 +132,7 @@ alpha <- 1
 sigma <- 1
 
 # number of simulations
-num_sim <- 1000
+num_sim <- 5
 
 # set seed
 set.seed(114)
@@ -174,6 +174,6 @@ summary(simulated_datasets_50perc)
 summary(simulated_datasets_75perc)
 
 # save simulated datasets
-saveRDS(object = simulated_datasets_25perc, file = "~/ACE_sims/sim_data/simulated_datasets_25perc_cens.rds")
-saveRDS(object = simulated_datasets_50perc, file = "~/ACE_sims/sim_data/simulated_datasets_25perc_cens.rds")
-saveRDS(object = simulated_datasets_75perc, file = "~/ACE_sims/sim_data/simulated_datasets_25perc_cens.rds")
+saveRDS(object = simulated_datasets_25perc, file = "sim_data/simulated_datasets_25perc_cens.rds")
+saveRDS(object = simulated_datasets_50perc, file = "sim_data/simulated_datasets_50perc_cens.rds")
+saveRDS(object = simulated_datasets_75perc, file = "sim_data/simulated_datasets_75perc_cens.rds")

@@ -2,12 +2,11 @@ rm(list = ls())
 
 set.seed(95)
 
-setwd("~/Documents/GitHub/ACEimpute/Manuscripts_Simulations/Correctly_Specified_Imputation_Model/")
+setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model/")
 
 # # Run once: 
 # install.packages("devtools")
 # devtools::install_github(repo = "sarahlotspeich/imputeCensRd", ref = "main")
-# devtools::install_github(repo = "Tanya-Garcia-Lab/ACEimpute/ACEimpute")
 
 # Load packages
 library(tidyverse)
@@ -34,7 +33,7 @@ for (f in list.files(path = "sim_data/")) {
   # number of simulations
   max_sim <- max(simulated_datasets$replicate)
   # change this for testing
-  num_sim = 5
+  num_sim = max_sim
   
   # data.frame for storing results
   save_res = matrix(data = NA,
