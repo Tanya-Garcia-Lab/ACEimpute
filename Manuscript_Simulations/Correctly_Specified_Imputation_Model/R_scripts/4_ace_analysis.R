@@ -5,15 +5,15 @@ setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_I
 
 # # Run once: 
 # install.packages("devtools")
-# devtools::install_github(repo = "sarahlotspeich/imputeCensRd", ref = "main")
+# devtools::install_github(repo = "Tanya-Garcia-Lab/Imputing-Censored-Covariates/imputeCensoRd")
 # devtools::install_github(repo = "Tanya-Garcia-Lab/ACEimpute/ACEimpute")
 
 # Load packages
 library(tidyverse)
 library(lme4)
-library(geex)
-library(imputeCensRd)
+library(imputeCensoRd)
 library(ACEimpute)
+library(geex)
 
 # parameter and method names
 param_names = c("beta1", "alpha", "sigma2")
@@ -31,7 +31,7 @@ for (f in list.files(path = "sim_data/")) {
   
   # number of simulations
   max_sim <- max(simulated_datasets$replicate)
-  # change this for testing
+  # only analyze 5 simulations for demonstration
   num_sim = max_sim
   
   # data.frame for storing results
