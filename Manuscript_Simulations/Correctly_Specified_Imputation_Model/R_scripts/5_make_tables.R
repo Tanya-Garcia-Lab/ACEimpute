@@ -1,6 +1,6 @@
 rm(list = ls())
 
-setwd("~/Documents/GitHub/ACEimpute/Manuscripts_Simulations/Correctly_Specified_Imputation_Model/")
+setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model/")
 
 library(tidyverse)
 library(latex2exp)
