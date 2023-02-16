@@ -28,3 +28,10 @@ Each of the "Script X" files is coded to run 5 replication of each setting for d
   - [Script 4 (ACE imputation analysis)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/4_ace_analysis.R)
   - [Script 5 (make table)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/5_make_tables.R)
   - [Data (Simulation Results)](Manuscript_Simulations/Misspecified_Imputation_Model/sim_data)
+
+## Figure
+
+**Figure 2.** Plot power curves comparing sample sizes for a clinical trial based on estimates from i) complete case analysis, ii) conditional mean imputaiton plus REML, and iii) ACE imputation
+
+  - [Script 1 (plot power curves)](Manuscript_Simulations/Power_Curves/compare_power_curves.R)(Manuscript_Simulations/Power_Curves/compare_power_curves.png)
+  - [Figure 2](
