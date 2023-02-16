@@ -1,7 +1,8 @@
 # clear workspace
 rm(list = ls())
 
-setwd("/Users/kylegrosser/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model")
+# un-comment if running individually
+# setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model/")
 
 library(tidyverse)
 library(lme4)

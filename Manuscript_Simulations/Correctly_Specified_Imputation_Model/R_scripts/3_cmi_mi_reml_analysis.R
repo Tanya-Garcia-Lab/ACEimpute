@@ -2,7 +2,8 @@ rm(list = ls())
 
 set.seed(95)
 
-setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model/")
+# un-comment if running individually
+# setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model/")
 
 # # Run once: 
 # install.packages("devtools")
