@@ -2,9 +2,17 @@
 
 This repository contains the data and scripts needed to reproduce results from the manuscript by Grosser, Lotspeich, and Garcia (2023+). This manuscript introduces the novel method "actice correction for error in imputation" (ACE imputation), which adjusts for the errors incurred when imputing censored covariates.
 
-The `ACEimpute` package, which corrects for imputation error, can be found in this repo [here](ACEimpute/).
+# Installation 
 
-The `imputeCensoRd` package, which implements the conditional mean imputation approaches from the paper, can be found in its own repo [here](https://github.com/Tanya-Garcia-Lab/Imputing-Censored-Covariates/tree/main/imputeCensoRd).
+The `ACEimpute` package, which corrects for imputation error, can be found in this repo [here](ACEimpute/). The `imputeCensoRd` package, which implements the conditional mean imputation approaches from the paper, can be found in its own repo [here](https://github.com/Tanya-Garcia-Lab/Imputing-Censored-Covariates/tree/main/imputeCensoRd).
+
+```{r}
+# Run once: install.packages("devtools")
+devtools::install_github(repo = "Tanya-Garcia-Lab/ACEimpute/ACEimpute")
+library(ACEimpute)
+devtools::install_github(repo = "Tanya-Garcia-Lab/Imputing-Censored-Covariates/imputeCensoRd")
+library(imputeCensoRd)
+```
 
 ## Tables 
 
