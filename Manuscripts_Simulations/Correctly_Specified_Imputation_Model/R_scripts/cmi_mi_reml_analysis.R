@@ -13,8 +13,6 @@ setwd("~/Documents/GitHub/ACEimpute/Manuscripts_Simulations/Correctly_Specified_
 library(tidyverse)
 library(imputeCensRd)
 library(lme4)
-library(geex)
-library(ACEimpute)
 
 # number of resamples
 M = 15
@@ -26,11 +24,11 @@ method_names = c("cmi_mi_reml")
 n_method = 1
 
 for (f in list.files(path = "sim_data/")) {
-  # # for testing
-  # f = list.files(path = "simulated_data/")[1]
+  # for testing
+  f = list.files(path = "sim_data/")[1]
   
   # read in simulated dataset
-  simulated_datasets = readr::read_rds(paste0("simulated_data/", f))
+  simulated_datasets = readr::read_rds(paste0("sim_data/", f))
   cens = str_extract(string = f, pattern = "[:digit:]+")
   
   # number of simulations
