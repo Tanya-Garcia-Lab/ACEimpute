@@ -131,7 +131,7 @@ alpha <- 1
 # standard deviation of epsilon, the random error
 sigma <- 1
 
-# number of simulations
+# number of simulations = 5 for demonstration
 num_sim <- 5
 
 # set seed
@@ -140,6 +140,7 @@ set.seed(114)
 simulated_datasets_25perc = DGM_2_random_slopes(n = n*num_sim, m = m, b = NULL,
                                                 beta = beta, alpha = alpha, sigma = sigma,
                                                 logHR = logHR, rate.t = rate.t, rate.c = 0.125)
+
 # reset seed
 set.seed(114)
 # generate data for n*num_sim subjects with 50% censoring
