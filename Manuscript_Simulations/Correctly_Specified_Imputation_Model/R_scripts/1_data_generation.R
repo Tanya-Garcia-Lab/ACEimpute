@@ -5,7 +5,6 @@ setwd("/Users/kylegrosser/Documents/GitHub/ACEimpute/Manuscript_Simulations/Corr
 
 library(tidyverse)
 library(lme4)
-library(geex)
 
 # Generate data set for n clusters each of size m
 # with a response y, subject index id, as well as
