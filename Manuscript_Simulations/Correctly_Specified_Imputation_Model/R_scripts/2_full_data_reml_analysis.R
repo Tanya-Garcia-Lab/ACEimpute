@@ -13,7 +13,7 @@ simulated_datasets = readr::read_rds("sim_data/simulated_datasets_25perc_cens.rd
 
 # number of simulations
 max_sim <- max(simulated_datasets$replicate)
-# change for testing
+# number of simulations = 5 for demonstration
 num_sim = max_sim
 
 param_names = c("beta1", "alpha", "sigma2")
