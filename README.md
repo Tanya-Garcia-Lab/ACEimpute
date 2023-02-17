@@ -25,7 +25,7 @@ The scripts in this repo are coded to run 5 replication of each simulation setti
   - [Data (simulation results)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/sim_data)
   - [Tables (manuscript table 1 and Table 4)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/tables)
   
-    <!-- - [Script 1 (generate simulation data)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/1_data_generation.R)
+    <!-- [Script 1 (generate simulation data)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/1_data_generation.R)
   - [Script 2 (full data analysis)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/2_full_data_reml_analysis.R)
   - [Script 3 (conditional mean imputation + REML analysis)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/3_cmi_mi_reml_analysis.R)
   - [Script 4 (ACE imputation analysis)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/4_ace_analysis.R) -->
