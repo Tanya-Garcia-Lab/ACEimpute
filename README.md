@@ -22,7 +22,7 @@ The scripts in this repo are coded to run 5 replication of each simulation setti
 
   - [Script (run simulation)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/0_run_all.R)
   - [Script (make table)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/5_make_tables.R)
-  - [Data (simulation results)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/sim_data)
+  - [Data (simulation replicates)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/sim_data)
   - [Tables (manuscript table 1 and Table 4)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/tables)
   
  **Tables 2 and 5.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a misspecified imputaiton model) plus REML, and iii) conditional mean imputation (with a misspecified imputaiton model) plus ACE imputation to correct for imputation error. 
