@@ -1,7 +1,7 @@
 rm(list = ls())
 
 # un-comment if running individually
-# setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model/")
+setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model/")
 
 # load packages
 library(tidyverse)
