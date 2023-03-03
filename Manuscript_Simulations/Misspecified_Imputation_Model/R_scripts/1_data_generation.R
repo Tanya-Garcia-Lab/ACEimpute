@@ -2,7 +2,7 @@
 rm(list = ls())
 
 # un-comment if running individually
-# setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model/")
+setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Misspecified_Imputation_Model/")
 
 library(tidyverse)
 library(lme4)
@@ -73,16 +73,17 @@ DGM_2_random_slopes = function(n = 1000, m = 3, b = NULL,
   
   # since X_t are time-independent, the number of X_t for each subject is p.logHR for a total of n*p.logHR
   # simulate X_t as iid from Normal(0, 1)
-  X_t <- rnorm(n = n*(p.logHR), mean = 0, sd = 1) %>%
-    matrix(ncol = p.logHR)
-  colnames(X_t) = paste0("X_t", 1:p.logHR)
+  X_t <- rnorm(n = n, mean = 0, sd = 1) %>%
+    matrix(ncol = 1)
+  X_t <- cbind(X_t, X_t[, 1]^2)
+  colnames(X_t) = c("X_t1", "X_t1_sq")
   
   ## STEP 2: generate t from Cox simulation using covariates X_t
   t <- ACEimpute::cox_simulation(n = n, logHR = logHR, A = X_t, dist = "Exponential", lambda = rate.t)
   
   ## STEP 3: generate y, X, and Z using DGM_1_random_slope()
   long.data = DGM_1_random_slope(n = n, m = m, beta = beta, sigma = sigma)
-  
+
   # append t to long.data
   long.data$t <- rep(t, each = m)
   # time_to_event variable
@@ -95,8 +96,8 @@ DGM_2_random_slopes = function(n = 1000, m = 3, b = NULL,
   long.data <- cbind(long.data, kronecker(X_t, rep(1, m)))
   
   # name columns
-  colnames(long.data)[8:9] = paste0("X_t", 1:p.logHR)
-  
+  colnames(long.data)[8:9] = c("X_t1", "X_t1_sq")
+
   ## STEP 4:
   # censoring variable v
   c <- rexp(n = n, rate = rate.c)
@@ -120,7 +121,7 @@ m <- 3
 
 ## REGRESSION PARAMETERS
 # log hazard ratios on X_t for simulation of t, the censored covariate
-logHR <- c(1, -0.5)
+logHR <- c(1, -0.25)
 rate.t <- 0.5
 # rate.c = 0.125 --> ~25% censoring, 0.5 --> ~50% censoring, and 2 --> 75% censoring
 
