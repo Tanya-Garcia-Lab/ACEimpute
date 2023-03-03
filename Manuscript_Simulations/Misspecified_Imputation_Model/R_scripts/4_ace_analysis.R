@@ -1,19 +1,20 @@
 # clear workspace
 rm(list = ls())
 
-setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Correctly_Specified_Imputation_Model")
+# un-comment if running individually
+# setwd("~/Documents/GitHub/ACEimpute/Manuscript_Simulations/Misspecified_Imputation_Model/")
 
 # # Run once: 
 # install.packages("devtools")
-# devtools::install_github(repo = "sarahlotspeich/imputeCensRd", ref = "main")
+# devtools::install_github(repo = "Tanya-Garcia-Lab/Imputing-Censored-Covariates/imputeCensoRd")
 # devtools::install_github(repo = "Tanya-Garcia-Lab/ACEimpute/ACEimpute")
 
 # Load packages
 library(tidyverse)
 library(lme4)
-library(geex)
-library(imputeCensRd)
+library(imputeCensoRd)
 library(ACEimpute)
+library(geex)
 
 # parameter and method names
 param_names = c("beta1", "alpha", "sigma2")
@@ -31,7 +32,7 @@ for (f in list.files(path = "sim_data/")) {
   
   # number of simulations
   max_sim <- max(simulated_datasets$replicate)
-  # change this for testing
+  # only analyze 5 simulations for demonstration
   num_sim = max_sim
   
   # data.frame for storing results
@@ -68,13 +69,13 @@ for (f in list.files(path = "sim_data/")) {
     # impute using only one row per subject
     imp_data <- data_s[which(data_s$visit == 1), ]
     
-    # impute censored covariate t
+    # impute censored covariate t using imputeCensoRd::condl_mean_impute()
     # imputation model linear predictor: x_t1 + x_t2 (matches DGM)
-    imp_data <- cmi_sp(W = "w", Delta = "delta", Z = c("X_t1", "X_t2"), data = imp_data, 
-                       trapezoidal_rule = T, surv_beyond = "d")
+    imp_mod <- survival::coxph(formula = survival::Surv(w, delta) ~ X_t1, data = imp_data)
+    imp_data <- condl_mean_impute(fit = imp_mod, obs = "w", event = "delta", addl_covar = c("X_t1"), data = imp_data)
     
     # assign imputed values based on subject id
-    data_s <- imp_data[[1]] %>%
+    data_s <- imp_data %>%
       dplyr::select(id, imp) %>%
       dplyr::left_join(data_s, ., by = "id") %>%
       # recalculate time_to_event using imp
@@ -89,6 +90,7 @@ for (f in list.files(path = "sim_data/")) {
                                                 Z.names = c("z1"),
                                                 # delta tells eff_score_vec which subjects are censored
                                                 cens = "delta"))
+    
     # save parameter estimates
     save_res[s, paste0(param_names, "_cmi_correct_ace")] <- coef(cmi_ace_fit)
     # save standard error estimates
