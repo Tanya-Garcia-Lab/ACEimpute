@@ -32,7 +32,7 @@ The scripts in this repo are coded to run 5 replication of each simulation setti
   - [Script (make table)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/5_make_tables.R)
   - [Data (simulation replicates)](Manuscript_Simulations/Misspecified_Imputation_Model/sim_data)
   - [Data (simulation results)](Manuscript_Simulations/Misspecified_Imputation_Model/sim_results)
-  - [Tables (manuscript table 1 and Table 4)](Manuscript_Simulations/Misspecified_Imputation_Model/tables)
+  - [Tables (manuscript table 2 and Table 5)](Manuscript_Simulations/Misspecified_Imputation_Model/tables)
 
 ## Figure
 
