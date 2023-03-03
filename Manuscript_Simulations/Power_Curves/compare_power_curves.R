@@ -15,7 +15,7 @@ set.seed(95)
 n <- seq(5, 1200, by = 1)
 
 # estimated slopes on s - T (time to diagnosis) in placebo group
-cmi_b1 <- -0.7385014 # CMI-MI
+cmi_b1 <- -0.7385014 # MCMI
 ace_b1 <- -0.7569002 # ACE
 cca_b1 <- -1.2580475 # CCA
 
@@ -48,10 +48,10 @@ req_n_cca <- n[which.min(abs(power_ccab1 - 0.8))]
 x_axis_n <- c(seq(0, max(n), by = 200))
 
 # plot power curves
-data.frame(Parameter = rep(x = c("CCA", "CMI-MI", "ACE"), each = length(n)),
+data.frame(Parameter = rep(x = c("CCA", "MCMI", "ACE"), each = length(n)),
            SampleSize = rep(n, times = 3),
            Power = c(power_ccab1, power_cmib1, power_aceb1)) %>%
-  dplyr::mutate(Method = factor(Parameter, levels = c("CCA", "CMI-MI", "ACE"))) %>%
+  dplyr::mutate(Method = factor(Parameter, levels = c("CCA", "MCMI", "ACE"))) %>%
   ggplot(aes(x = SampleSize, y = Power, linetype = Method, col = Method)) +
   # power curves
   geom_line(size = 1.2) +
@@ -72,7 +72,7 @@ data.frame(Parameter = rep(x = c("CCA", "CMI-MI", "ACE"), each = length(n)),
   theme(legend.position = "top") +
   xlab("Sample Size") +
   ylab("Power to Detect\nTreatment Effect") +
-  annotate("text", x=800, y=0.30, label = "CCA: n = 391\nCMI-MI: n = 1134\nACE: n = 1079", size = 3.5) +
+  annotate("text", x=800, y=0.30, label = "CCA: n = 391\nMCMI: n = 1134\nACE: n = 1079", size = 3.5) +
   theme(axis.title.x = element_blank(), axis.title.y = element_blank()) -> plot_diff_trt_90
 
 # sample sizes 5-600
@@ -100,10 +100,10 @@ req_n_cca <- n[which.min(abs(power_ccab1 - 0.8))]
 x_axis_n <- c(seq(0, max(n), by = 100))
 
 # plot power curves
-data.frame(Parameter = rep(x = c("CCA", "CMI-MI", "ACE"), each = length(n)),
+data.frame(Parameter = rep(x = c("CCA", "MCMI", "ACE"), each = length(n)),
            SampleSize = rep(n, times = 3),
            Power = c(power_ccab1, power_cmib1, power_aceb1)) %>%
-  dplyr::mutate(Method = factor(Parameter, levels = c("CCA", "CMI-MI", "ACE"))) %>%
+  dplyr::mutate(Method = factor(Parameter, levels = c("CCA", "MCMI", "ACE"))) %>%
   ggplot(aes(x = SampleSize, y = Power, linetype = Method, col = Method)) +
   # power curves
   geom_line(size = 1.2) +
@@ -124,7 +124,7 @@ data.frame(Parameter = rep(x = c("CCA", "CMI-MI", "ACE"), each = length(n)),
   theme(legend.position = "top") +
   xlab("Sample Size") +
   ylab("Power to Detect\nTreatment Effect") +
-  annotate("text", x=400, y=0.3, label = "CCA: n = 174\nCMI-MI: n = 504\nACE: n = 480", size = 3.5) +
+  annotate("text", x=400, y=0.3, label = "CCA: n = 174\nMCMI: n = 504\nACE: n = 480", size = 3.5) +
   theme(axis.title.x = element_blank(), axis.title.y = element_blank()) -> plot_diff_trt_85
 
 # sample sizes 5-300
@@ -152,10 +152,10 @@ req_n_cca <- n[which.min(abs(power_ccab1 - 0.8))]
 x_axis_n <- c(seq(0, max(n), by = 50))
 
 # plot power curves
-data.frame(Parameter = rep(x = c("CCA", "CMI-MI", "ACE"), each = length(n)),
+data.frame(Parameter = rep(x = c("CCA", "MCMI", "ACE"), each = length(n)),
            SampleSize = rep(n, times = 3),
            Power = c(power_ccab1, power_cmib1, power_aceb1)) %>%
-  dplyr::mutate(Method = factor(Parameter, levels = c("CCA", "CMI-MI", "ACE"))) %>%
+  dplyr::mutate(Method = factor(Parameter, levels = c("CCA", "MCMI", "ACE"))) %>%
   ggplot(aes(x = SampleSize, y = Power, linetype = Method, col = Method)) +
   # power curves
   geom_line(size = 1.2) +
@@ -176,7 +176,7 @@ data.frame(Parameter = rep(x = c("CCA", "CMI-MI", "ACE"), each = length(n)),
   theme(legend.position = "top") +
   xlab("Sample Size") +
   ylab("Power to Detect\nTreatment Effect") +
-  annotate("text", x=200, y=0.30, label = "CCA: n = 98\nCMI-MI: n = 283\nACE: n = 270", size = 3.5) +
+  annotate("text", x=200, y=0.30, label = "CCA: n = 98\nMCMI: n = 283\nACE: n = 270", size = 3.5) +
   theme(axis.title.x = element_blank(), axis.title.y = element_blank()) -> plot_diff_trt_80
 
 # arrange figures in column
