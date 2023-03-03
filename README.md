@@ -38,5 +38,5 @@ The scripts in this repo are coded to run 5 replication of each simulation setti
 
 **Figure 2.** Plot power curves comparing sample sizes for a clinical trial based on estimates from i) complete case analysis, ii) conditional mean imputaiton plus REML, and iii) ACE imputation
 
-  - [Script 1 (plot power curves)](Manuscript_Simulations/Power_Curves/compare_power_curves.R)
+  - [Script (plot power curves)](Manuscript_Simulations/Power_Curves/compare_power_curves.R)
   - [Figure](Manuscript_Simulations/Power_Curves/compare_power_curves.png)
