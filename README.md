@@ -24,20 +24,19 @@ The scripts in this repo are coded to run 5 replication of each simulation setti
   - [Script (make table)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/R_scripts/5_make_tables.R)
   - [Data (simulation replicates)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/sim_data)
   - [Data (simulation results)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/sim_results)
-  - [Tables (manuscript table 1 and Table 4)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/tables)
+  - [Tables (manuscript Table 1 and Table 4)](Manuscript_Simulations/Correctly_Specified_Imputation_Model/tables)
   
  **Tables 2 and 5.** Simulation results comparing i) restricted maximum likelihood estimation (REML) with the full data, ii) conditional mean imputation (with a misspecified imputaiton model) plus REML, and iii) conditional mean imputation (with a misspecified imputaiton model) plus ACE imputation to correct for imputation error. 
 
-  - [Script 1 (generate simulation data)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/1_data_generation.R)
-  - [Script 2 (full data analysis)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/2_full_data_reml_analysis.R)
-  - [Script 3 (conditional mean imputation + REML analysis)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/3_cmi_mi_reml_analysis.R)
-  - [Script 4 (ACE imputation analysis)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/4_ace_analysis.R)
-  - [Script 5 (make table)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/5_make_tables.R)
-  - [Data (Simulation Results)](Manuscript_Simulations/Misspecified_Imputation_Model/sim_data)
+  - [Script (run simulation)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/0_run_all.R)
+  - [Script (make table)](Manuscript_Simulations/Misspecified_Imputation_Model/R_scripts/5_make_tables.R)
+  - [Data (simulation replicates)](Manuscript_Simulations/Misspecified_Imputation_Model/sim_data)
+  - [Data (simulation results)](Manuscript_Simulations/Misspecified_Imputation_Model/sim_results)
+  - [Tables (manuscript Table 2 and Table 5)](Manuscript_Simulations/Misspecified_Imputation_Model/tables)
 
 ## Figure
 
 **Figure 2.** Plot power curves comparing sample sizes for a clinical trial based on estimates from i) complete case analysis, ii) conditional mean imputaiton plus REML, and iii) ACE imputation
 
-  - [Script 1 (plot power curves)](Manuscript_Simulations/Power_Curves/compare_power_curves.R)
+  - [Script (plot power curves)](Manuscript_Simulations/Power_Curves/compare_power_curves.R)
   - [Figure](Manuscript_Simulations/Power_Curves/compare_power_curves.png)
